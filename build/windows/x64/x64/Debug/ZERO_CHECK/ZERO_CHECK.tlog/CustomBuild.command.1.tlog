@@ -1,0 +1,10 @@
+^C:\USERS\ADMIN\ONEDRIVE\ESCRITORIO\PROYECTO ARQUISOFT\WHEELSUN_FRONTEND\WHEELSUN_FRONTEND\BUILD\WINDOWS\X64\CMAKEFILES\55803CE8B28936C5EB6AE7BC5E3804D7\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" "-SC:/Users/admin/OneDrive/Escritorio/Proyecto arquisoft/wheelsUN_FrontEnd/wheelsUN_FrontEnd/windows" "-BC:/Users/admin/OneDrive/Escritorio/Proyecto arquisoft/wheelsUN_FrontEnd/wheelsUN_FrontEnd/build/windows/x64" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "C:/Users/admin/OneDrive/Escritorio/Proyecto arquisoft/wheelsUN_FrontEnd/wheelsUN_FrontEnd/build/windows/x64/wheels_un.sln"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
