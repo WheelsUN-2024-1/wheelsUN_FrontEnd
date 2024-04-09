@@ -1,0 +1,1 @@
+ C:\\Users\\admin\\OneDrive\\Escritorio\\Proyecto\ arquisoft\\wheelsUN_FrontEnd\\wheelsUN_FrontEnd\\.dart_tool\\flutter_build\\214759e4fefd9c20d573a97fc59674ac\\native_assets.yaml: 
