@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wheels_un/map_page.dart';
 import 'package:wheels_un/add_new_creditCard.dart';
+import 'package:wheels_un/pages/login_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +19,10 @@ class MyApp extends StatelessWidget {
         "map": (context) => MapPage()
       },
       debugShowCheckedModeBanner: false,
-      home: MapPage(),
+     
+      //home: MapPage(),
+     
+      home: LoginPage(),
 
     );
   }
