@@ -26,18 +26,20 @@ class LoginPage extends StatelessWidget {
 
               // logo
               const Icon(
-                Icons.lock,
+                Icons.directions_car_sharp,
                 size: 100,
+                color:Color(0xFF68BB92),
               ),
 
               const SizedBox(height: 50),
 
-              // welcome back, you've been missed!
+              // welcome 
               Text(
-                'Welcome back you\'ve been missed!',
+                'Welcome to wheelsUN!',
                 style: TextStyle(
                   color: Colors.grey[700],
-                  fontSize: 16,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
 
