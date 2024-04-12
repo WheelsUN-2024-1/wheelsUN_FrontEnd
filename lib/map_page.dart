@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wheels_un/services/location_service.dart';
 import 'package:wheels_un/services/network_utils.dart';
-
+import  'package:flutter_google_places_web/flutter_google_places_web.dart';
+import 'constants.dart';
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
 
@@ -51,12 +52,14 @@ class _MapPageState extends State<MapPage> {
         Column(
           children: [
             Row(children: [
-              Expanded(child: TextFormField(
-                onChanged: (value) {
-                  LocationService.placeAutocomplete(value);
-                }
-              )),
-              IconButton(onPressed:() {}, icon: Icon(Icons.search))
+              Expanded(
+                child: FlutterGooglePlacesWeb(
+                apiKey: API_KEY,
+                proxyURL: 'https://cors-anywhere.herokuapp.com/',
+                components: 'country:co',
+                required: false,
+                ),
+              )
             ],),
             Expanded(
               child: GoogleMap(
