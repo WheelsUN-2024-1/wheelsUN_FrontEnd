@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wheels_un/services/location_service.dart';
 import 'package:wheels_un/services/network_utils.dart';
 import  'package:flutter_google_places_web/flutter_google_places_web.dart';
 import 'constants.dart';
+import 'package:http/http.dart' as http;
+
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
 
@@ -18,10 +23,27 @@ class _MapPageState extends State<MapPage> {
   static final LatLng university_center = const LatLng(4.6355555555556, -74.082777777778);
   static final LatLng waypoint = const LatLng(4.75, -74.082777777778);
 
-
-  
   void _onMapCreated(GoogleMapController controller){
     mapController = controller;
+  }
+
+  void placeAutocomplete(String query) async {
+    final String ap_url = AG_URL+'/trip';
+    String graphQLQuery = 
+    'query {autoComplete(query: "$query"){description}}';
+    try { 
+      print(ap_url);
+      print(graphQLQuery);
+      var url = Uri.parse(ap_url);
+      var response = await http.post(url,
+            headers: {"Content-type": "application/json"},
+            body: json.encode({'query': graphQLQuery}));
+        final data = jsonDecode(response.body);
+        print(data);
+    } catch (e){
+        print(e);
+        throw Exception("Fallo la conexion");
+    } 
   }
 
 
@@ -51,15 +73,20 @@ class _MapPageState extends State<MapPage> {
         
         Column(
           children: [
+            Text("Destino: Universidad Nacional de Colombia"),
             Row(children: [
-              Expanded(
-                child: FlutterGooglePlacesWeb(
-                apiKey: API_KEY,
-                proxyURL: 'https://cors-anywhere.herokuapp.com/',
-                components: 'country:co',
-                required: false,
+              Expanded(child: TextFormField(
+                onChanged: (value) {},
+                textInputAction: TextInputAction.search,
+                decoration: InputDecoration(
+                  hintText: "Donde te encuentras?",
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 12),)
                 ),
-              )
+              )),
+              IconButton(onPressed: () {
+                placeAutocomplete("Am");
+              }, icon: Icon(Icons.search))
             ],),
             Expanded(
               child: GoogleMap(

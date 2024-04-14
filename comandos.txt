@@ -1,9 +1,0 @@
-flutter --version
-
-**** upgrade dependencies ****
-
-flutter pub get
-flutter upgrade
-
-
-last flutter version Flutter 3.19

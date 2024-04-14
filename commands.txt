@@ -1,0 +1,26 @@
+flutter --version
+
+**** upgrade dependencies ****
+
+flutter pub get
+flutter upgrade
+
+
+*******************
+
+Color palette
+
+prefix : OxFF   
+color : A0CA92
+
+example : Color(0xFFA0CA92)
+
+Green
+
+A0CA92   68BB92   04A99A
+
+Blues
+
+0096A4   0080AC   0068AB
+
+*******************
