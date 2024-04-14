@@ -149,7 +149,7 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
   };
 
   String graphQLQuery =
-      'mutation { createCreditCard(id: "95d1db1b-9df8-47e2-94dc-939b5bfd3d36", creditcard: { CreditCardId: ${creditCardS['CreditCardId']}, UserId: ${creditCardS['UserId']}, Number: ${creditCardS['Number']}, Name: ${creditCardS['Name']}, SecurityCode: ${creditCardS['SecurityCode']}, ExpirationDate: ${creditCardS['ExpirationDate']}, Brand: ${creditCardS['Brand']} }) { creditCardId userId number name securityCode expirationDate } }';
+      ' { createCreditCard(id: "95d1db1b-9df8-47e2-94dc-939b5bfd3d36", creditcard: { CreditCardId: ${creditCardS['CreditCardId']}, UserId: ${creditCardS['UserId']}, Number: ${creditCardS['Number']}, Name: ${creditCardS['Name']}, SecurityCode: ${creditCardS['SecurityCode']}, ExpirationDate: ${creditCardS['ExpirationDate']}, Brand: ${creditCardS['Brand']} }) { creditCardId userId number name securityCode expirationDate } }';
   try {
     var url = Uri.parse(creditCardUrl);
     var response = await http.post(
