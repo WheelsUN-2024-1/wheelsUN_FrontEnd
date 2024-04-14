@@ -22,8 +22,8 @@ class MyApp extends StatelessWidget {
       },
       debugShowCheckedModeBanner: false,
      
-      //home: MapPage(),
-      home: AddNewCardScreen(),
+      home: MapPage(),
+      //home: AddNewCardScreen(),
       //home: LoginPage(),
       //home: SignUpPage(),
       //home: RegisterVehiclePage()
