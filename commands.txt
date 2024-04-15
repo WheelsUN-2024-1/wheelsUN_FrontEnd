@@ -5,6 +5,7 @@ flutter --version
 flutter pub get
 flutter upgrade
 
+flutter run -d chrome --web-port=9200
 
 *******************
 

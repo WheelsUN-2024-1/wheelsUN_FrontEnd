@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:wheels_un/components/my_button.dart';
 import 'package:wheels_un/components/my_textfield.dart';
 import 'package:wheels_un/components/square_texfield.dart';
+import 'package:wheels_un/graphql/graphql_client.dart';
+import 'package:wheels_un/models/auth_model.dart';
+import 'package:wheels_un/services/api_service.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -10,11 +13,39 @@ class LoginPage extends StatelessWidget {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
-  // sign user in method
-  void signUserIn() {}
-
   @override
   Widget build(BuildContext context) {
+    final apiService = ApiService(getGraphQLClient());
+
+    void signUserIn() async {
+      final email = usernameController.text;
+      final password = passwordController.text;
+
+      if (email.isEmpty || password.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text("Please enter your username and password")),
+        );
+        return;
+      }
+
+      final loginModel = LoginModel(email: email, password: password);
+
+
+      final response =
+          await apiService.login(loginModel);
+
+      if (response.hasException) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(response.exception.toString())),
+        );
+      } else {
+   
+     /*    Navigator.pushReplacementNamed(
+            context, '/home');  */
+      }
+    }
+
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: SafeArea(
@@ -28,12 +59,12 @@ class LoginPage extends StatelessWidget {
               const Icon(
                 Icons.directions_car_sharp,
                 size: 100,
-                color:Color(0xFF68BB92),
+                color: Color(0xFF68BB92),
               ),
 
               const SizedBox(height: 50),
 
-              // welcome 
+              // welcome
               Text(
                 'Welcome to wheelsUN!',
                 style: TextStyle(

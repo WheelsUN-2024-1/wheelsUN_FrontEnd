@@ -177,7 +177,6 @@ class PassengerPatch {
 
 // driver_patch.dart
 
-
 class DriverPatch extends PassengerPatch {
   String? userLicenseExpirationDate;
 

@@ -3,7 +3,7 @@ import 'package:wheels_un/constants.dart';
 
 GraphQLClient getGraphQLClient() {
   final HttpLink httpLink = HttpLink(
-    AG_URL+'/graphql', 
+    AG_URL + '/user', 
   );
 
   return GraphQLClient(

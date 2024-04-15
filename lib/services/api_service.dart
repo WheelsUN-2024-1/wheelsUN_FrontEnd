@@ -1,54 +1,129 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:wheels_un/models/auth_model.dart';
+import 'package:wheels_un/models/transaction_model.dart';
+import 'package:wheels_un/models/user_model.dart';
+
 
 class ApiService {
-final GraphQLClient client;
+  final GraphQLClient client;
 
   ApiService(this.client);
 
-  Future<RegisterResponse> register(RegisterModel registerModel) async {
-    const String mutation = """
-      mutation Register(\$userId: String!, \$password: String!) {
-        register(userId: \$userId, password: \$password) {
-          token
-          message
-        }
+  // Método para registrar un nuevo usuario (Driver o Passenger).
+
+  Future<QueryResult> register(RegisterModel registerModel) async {
+    const String registerMutation = """
+    mutation Register(\$userId: String!, \$password: String!) {
+      register(registerM: {userId: \$userId, password: \$password}) {
+        token
+        message
       }
+    }
     """;
 
-    final MutationOptions options = MutationOptions(
-      document: gql(mutation),
-      variables: registerModel.toJson(),
+    return await client.mutate(
+      MutationOptions(
+        document: gql(registerMutation),
+        variables: {
+          'userId': registerModel.userId,
+          'password': registerModel.password,
+        },
+      ),
     );
-
-    final QueryResult result = await client.mutate(options);
-    if (result.hasException) {
-      throw Exception(result.exception.toString());
-    }
-
-    return RegisterResponse.fromJson(result.data!['register']);
   }
 
-  Future<LoginResponse> login(LoginModel loginModel) async {
-    const String mutation = """
-      mutation Login(\$userId: String!, \$password: String!) {
-        login(userId: \$userId, password: \$password) {
-          token
-          message
-        }
+  // Método para iniciar sesión.
+
+/*   mutation login{passengerLogin(email:"ana@gmail.com",password:"pepito123"){
+  token
+  message
+}} */
+
+ Future<QueryResult> login(LoginModel loginModel) async {
+  const String loginMutation = """
+  mutation Login(\$email: String!, \$password: String!) {
+    passengerLogin(email: \$email, password: \$password) {
+      token
+      message
+    }
+  }
+  """;
+
+  return await client.mutate(
+    MutationOptions(
+      document: gql(loginMutation),
+      variables: {
+        'email': loginModel.email,
+        'password': loginModel.password,
+      },
+    ),
+  );
+}
+
+  // Método para cerrar sesión.
+
+  Future<QueryResult> logout(String token) async {
+    const String logoutMutation = """
+    mutation Logout(\$token: String!) {
+      logout(token: \$token) {
+        message
       }
+    }
     """;
 
-    final MutationOptions options = MutationOptions(
-      document: gql(mutation),
-      variables: loginModel.toJson(),
+    return await client.mutate(
+      MutationOptions(
+        document: gql(logoutMutation),
+        variables: {
+          'token': token,
+        },
+      ),
     );
+  }
 
-    final QueryResult result = await client.mutate(options);
-    if (result.hasException) {
-      throw Exception(result.exception.toString());
+  // Método para crear un nuevo conductor.
+  
+  Future<QueryResult> createNewDriver(DriverInput driverInput, String password) async {
+    const String createDriverMutation = """
+    mutation CreateNewDriver(\$driver: DriverInput!, \$password: String!) {
+      createNewDriver(driver: \$driver, password: \$password) {
+        token
+        message
+      }
     }
+    """;
 
-    return LoginResponse.fromJson(result.data!['login']);
+    return await client.mutate(
+      MutationOptions(
+        document: gql(createDriverMutation),
+        variables: {
+          'driver': driverInput.toJson(),
+          'password': password,
+        },
+      ),
+    );
+  }
+
+  // Método para crear una nueva tarjeta de crédito.
+  Future<QueryResult> createCreditCard(CreditCardModel creditCardModel) async {
+    const String createCreditCardMutation = """
+    mutation CreateCreditCard(\$id: String!, \$creditcard: CreditCardModel!) {
+      createCreditCard(id: \$id, creditcard: \$creditcard) {
+        ID
+        number
+      }
+    }
+    """;
+
+    return await client.mutate(
+      MutationOptions(
+        document: gql(createCreditCardMutation),
+        variables: {
+          'id': creditCardModel.userId,
+          'creditcard': creditCardModel.toJson(),
+        },
+      ),
+    );
   }
 
 }

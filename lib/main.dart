@@ -22,9 +22,9 @@ class MyApp extends StatelessWidget {
       },
       debugShowCheckedModeBanner: false,
      
-      home: MapPage(),
+      //home: MapPage(),
       //home: AddNewCardScreen(),
-      //home: LoginPage(),
+      home: LoginPage(),
       //home: SignUpPage(),
       //home: RegisterVehiclePage()
 
