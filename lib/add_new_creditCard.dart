@@ -131,33 +131,36 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
     });
   }
 
-  final String creditCardUrl = kIsWeb
-      ? "http:localhost:8100/transaction"
-      : "http://10.0.2.2:8100/transaction";
+  final String creditCardUrl =  "http://127.0.0.1:8100/transaction";
 
   void PostCard(Map<String, String> creditCard) async {
   var idc = Random().nextInt(900);
 
   var creditCardS = {
-    'CreditCardId': idc.toString(),
-    'Number': '"${creditCard['Number']}"',
-    'UserId': '"456"', 
-    'Name': '"${creditCard['Name']}"',
-    'SecurityCode': '"${creditCard['SecurityCode']}"',
-    'ExpirationDate': '"${creditCard['ExpirationDate']}"',
-    'Brand': '"${creditCard['Brand']}"',
+    'CreditCardId': idc,
+    'Number': "${creditCard['Number']}",
+    'UserId': 492, 
+    'Name': "${creditCard['Name']}",
+    'SecurityCode': "${creditCard['SecurityCode']}",
+    'ExpirationDate': "${creditCard['ExpirationDate']}",
+    'Brand': "${creditCard['Brand']}",
   };
 
+  print(creditCardS['Name']);
+  print(creditCardS['CreditCardId']);
+  int idcons = 492;
+
   String graphQLQuery =
-      ' { createCreditCard(id: "95d1db1b-9df8-47e2-94dc-939b5bfd3d36", creditcard: { CreditCardId: ${creditCardS['CreditCardId']}, UserId: ${creditCardS['UserId']}, Number: ${creditCardS['Number']}, Name: ${creditCardS['Name']}, SecurityCode: ${creditCardS['SecurityCode']}, ExpirationDate: ${creditCardS['ExpirationDate']}, Brand: ${creditCardS['Brand']} }) { creditCardId userId number name securityCode expirationDate } }';
+  ' mutation { createCreditCard(id: $idcons, creditcard: { CreditCardId: $idc, UserId: $idcons, Number: "${creditCardS['Number']}", Name: "${creditCardS['Name']}", SecurityCode: "${creditCardS['SecurityCode']}", ExpirationDate: "${creditCardS['ExpirationDate']}", Brand: "${creditCardS['Brand']}" }) { creditCardId userId number name securityCode expirationDate } }';
+
   try {
     var url = Uri.parse(creditCardUrl);
     var response = await http.post(
       url,
       headers: {"Content-type": "application/json"},
-      body: json.encode({'mutation': graphQLQuery}),
-    );
-
+      body: json.encode({'query': graphQLQuery}),);
+    final data = jsonDecode(response.body);
+    print(data);
     if (response.statusCode == 200) {
       // The request was successful
       print('Successful POST request');
