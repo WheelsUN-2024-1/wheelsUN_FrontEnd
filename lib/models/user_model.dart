@@ -100,7 +100,7 @@ class PassengerInput {
 
 // driver_input.dart
 
-import 'passenger_input.dart';
+
 
 class DriverInput extends PassengerInput {
   String userLicenseExpirationDate;
@@ -177,7 +177,6 @@ class PassengerPatch {
 
 // driver_patch.dart
 
-import 'passenger_patch.dart';
 
 class DriverPatch extends PassengerPatch {
   String? userLicenseExpirationDate;
