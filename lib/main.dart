@@ -27,8 +27,8 @@ class MyApp extends StatelessWidget {
       //home: AddNewCardScreen(),
       //home: LoginPage(),
       //home: SignUpPage(),
-      //home: RegisterVehiclePage()
-      home: SelectCreditCard()
+      home: RegisterVehiclePage()
+      //home: SelectCreditCard()
 
     );
   }

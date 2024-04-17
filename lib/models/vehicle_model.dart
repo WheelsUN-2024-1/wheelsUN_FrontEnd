@@ -18,6 +18,18 @@ class VehicleModel {
     required this.vehicleYear,
     required this.vehicleSeatingCapacity,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'vehicleOwnerId': vehicleOwnerId,
+      'vehiclePlate': vehiclePlate,
+      'vehicleBrand': vehicleBrand,
+      'vehicleModel': vehicleModel,
+      'vehicleCylinder': vehicleCylinder,
+      'vehicleYear': vehicleYear,
+      'vehicleSeatingCapacity': vehicleSeatingCapacity,
+    };
+  }
 }
 
 // vehicle_input.dart

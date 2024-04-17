@@ -2,7 +2,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:wheels_un/models/auth_model.dart';
 import 'package:wheels_un/models/transaction_model.dart';
 import 'package:wheels_un/models/user_model.dart';
-
+import 'package:wheels_un/models/vehicle_model.dart';
 
 class ApiService {
   final GraphQLClient client;
@@ -39,8 +39,8 @@ class ApiService {
   message
 }} */
 
- Future<QueryResult> login(LoginModel loginModel) async {
-  const String loginMutation = """
+  Future<QueryResult> login(LoginModel loginModel) async {
+    const String loginMutation = """
   mutation Login(\$email: String!, \$password: String!) {
     passengerLogin(email: \$email, password: \$password) {
       token
@@ -49,16 +49,16 @@ class ApiService {
   }
   """;
 
-  return await client.mutate(
-    MutationOptions(
-      document: gql(loginMutation),
-      variables: {
-        'email': loginModel.email,
-        'password': loginModel.password,
-      },
-    ),
-  );
-}
+    return await client.mutate(
+      MutationOptions(
+        document: gql(loginMutation),
+        variables: {
+          'email': loginModel.email,
+          'password': loginModel.password,
+        },
+      ),
+    );
+  }
 
   // Método para cerrar sesión.
 
@@ -82,8 +82,9 @@ class ApiService {
   }
 
   // Método para crear un nuevo conductor.
-  
-  Future<QueryResult> createNewDriver(DriverInput driverInput, String password) async {
+
+  Future<QueryResult> createNewDriver(
+      DriverInput driverInput, String password) async {
     const String createDriverMutation = """
     mutation CreateNewDriver(\$driver: DriverInput!, \$password: String!) {
       createNewDriver(driver: \$driver, password: \$password) {
@@ -99,6 +100,28 @@ class ApiService {
         variables: {
           'driver': driverInput.toJson(),
           'password': password,
+        },
+      ),
+    );
+  }
+
+  // Método para crear un nuevo vehiculo.
+
+  Future<QueryResult> createNewVehicle(
+      VehicleInput vehicle) async {
+    const String createVehicleMutation = """
+    mutation CreateVehicle(\$vehicle: VehicleInput!) {
+      createVehicle(vehicle: \$vehicle) {
+        vehiclePlate
+      }
+    }
+    """;
+
+    return await client.mutate(
+      MutationOptions(
+        document: gql(createVehicleMutation),
+        variables: {
+          'vehicle': vehicle.toJson(),
         },
       ),
     );
@@ -125,5 +148,4 @@ class ApiService {
       ),
     );
   }
-
 }
