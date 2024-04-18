@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:wheels_un/components/my_button.dart';
 import 'package:wheels_un/components/my_form_textfield.dart';
+import 'package:wheels_un/services/api_service.dart';
+import 'package:wheels_un/graphql/graphql_client.dart';
+import 'package:wheels_un/models/user_model.dart';
 
 class SignUpPage extends StatefulWidget {
   SignUpPage({Key? key}) : super(key: key);
@@ -23,19 +26,58 @@ class _SignUpPageState extends State<SignUpPage> {
   final countryController = TextEditingController();
   final postalCodeController = TextEditingController();
   final licenseExpDateController = TextEditingController();
+  final passwordController = TextEditingController();
 
   bool isDriver = false; // Flag to track if the user is registering as a driver
 
-  void signUserUp() {
+  void signUserUp() async{
+    final apiService = ApiService(getGraphQLClient());
     if (isDriver) {
       if (_driverFormKey.currentState!.validate()) {
         // If the driver form is valid, proceed with sign-up logic for driver
-        print('Driver sign-up successful!');
+        final driverModel = DriverInput(
+          userIdNumber: int.parse(ccController.text), 
+          userName: nameController.text, 
+          userAge: int.parse(ageController.text), 
+          userEmail: emailController.text, 
+          userPhone: phoneController.text, 
+          userAddress: addressController.text, 
+          userCity: cityController.text, 
+          userCountry: countryController.text, 
+          userPostalCode: postalCodeController.text, 
+          userLicenseExpirationDate: licenseExpDateController.text
+          );
+        final response = await apiService.createNewDriver(driverModel, passwordController.text);
+        if(response.data == null){
+          //error message (should only show a error message)
+          print('Register new driver failed');
+        }else{
+          //driver created (should show message and redirect to the login page)
+          print('Register new driver successful');
+        }
       }
     } else {
       if (_passengerFormKey.currentState!.validate()) {
         // If the passenger form is valid, proceed with sign-up logic for passenger
-        print('Passenger sign-up successful!');
+        final passengerModel = PassengerInput(
+          userIdNumber: int.parse(ccController.text), 
+          userName: nameController.text, 
+          userAge: int.parse(ageController.text), 
+          userEmail: emailController.text, 
+          userPhone: phoneController.text, 
+          userAddress: addressController.text, 
+          userCity: cityController.text, 
+          userCountry: countryController.text, 
+          userPostalCode: postalCodeController.text
+        );
+        final response = await apiService.createNewPassenger(passengerModel, passwordController.text);
+        if(response.data == null){
+          //error message (should only show a error message)
+          print('Register new passenger failed');
+        }else{
+          //passenger created (should show message and redirect to the login page)
+          print('Register new passenger successful');
+        }
       }
     }
   }
@@ -152,6 +194,13 @@ class _SignUpPageState extends State<SignUpPage> {
               validator: validateLicenseExpDate,
             ),
           ],
+          const SizedBox(height: 25),
+          MyFormTextField(
+            controller: passwordController,
+            hintText: 'Contraseña',
+            obscureText: true,
+            validator: validatePassword,
+          ),
           const SizedBox(height: 25),
           MyButton(
             onTap: signUserUp,
@@ -318,6 +367,20 @@ String? validateLicenseExpDate(String? value) {
   if (expirationDate.isBefore(currentDate)) {
     return 'Not valid Expiration date';
   }
+
+  return null; // Return null if validation passes
+}
+
+String? validatePassword(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Please enter your password';
+  }
+
+  if (value.length < 6) {
+    return 'Password must be at least 6 characters long';
+  }
+
+  // You can add more validation rules here, such as requiring special characters, uppercase letters, etc.
 
   return null; // Return null if validation passes
 }

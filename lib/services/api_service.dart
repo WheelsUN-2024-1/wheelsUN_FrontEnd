@@ -84,7 +84,7 @@ class ApiService {
   // Método para crear un nuevo conductor.
 
   Future<QueryResult> createNewDriver(
-      DriverInput driverInput, String password) async {
+      DriverInput driver, String password) async {
     const String createDriverMutation = """
     mutation CreateNewDriver(\$driver: DriverInput!, \$password: String!) {
       createNewDriver(driver: \$driver, password: \$password) {
@@ -98,7 +98,29 @@ class ApiService {
       MutationOptions(
         document: gql(createDriverMutation),
         variables: {
-          'driver': driverInput.toJson(),
+          'driver': driver.toJson(),
+          'password': password,
+        },
+      ),
+    );
+  }
+
+Future<QueryResult> createNewPassenger(
+      PassengerInput passenger, String password) async {
+    const String createPassengerMutation = """
+    mutation CreateNewPassenger(\$passenger: PassengerInput!, \$password: String!) {
+      createNewPassenger(passenger: \$passenger, password: \$password) {
+        token
+        message
+      }
+    }
+    """;
+
+    return await client.mutate(
+      MutationOptions(
+        document: gql(createPassengerMutation),
+        variables: {
+          'passenger': passenger.toJson(),
           'password': password,
         },
       ),

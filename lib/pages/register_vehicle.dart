@@ -37,11 +37,13 @@ class RegisterVehiclePage extends StatelessWidget {
             content: Text('Failed to create vehicle. Please try again.'),
           ),
         );
+        print('Register new vehicle failed');
       } else {
         // Vehicle created successfully, navigate to previous page or do other actions
+        print('Register new vehicle successful');
       }
-      print(response.data);
-      print('Register new vehicle done(?)');
+      //print(response.data);
+      
     }
   }
 

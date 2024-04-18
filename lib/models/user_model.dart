@@ -60,11 +60,11 @@ class DriverModel extends PassengerModel {
 // passenger_input.dart
 
 class PassengerInput {
-  String userIdNumber;
+  int userIdNumber;
   String userName;
   int userAge;
   String userEmail;
-  int userPhone;
+  String userPhone;
   String userAddress;
   String userCity;
   String userCountry;
@@ -106,11 +106,11 @@ class DriverInput extends PassengerInput {
   String userLicenseExpirationDate;
 
   DriverInput({
-    required String userIdNumber,
+    required int userIdNumber,
     required String userName,
     required int userAge,
     required String userEmail,
-    required int userPhone,
+    required String userPhone,
     required String userAddress,
     required String userCity,
     required String userCountry,
@@ -143,7 +143,7 @@ class PassengerPatch {
   String? userName;
   int? userAge;
   String? userEmail;
-  int? userPhone;
+  String? userPhone;
   String? userAddress;
   String? userCity;
   String? userCountry;
@@ -184,7 +184,7 @@ class DriverPatch extends PassengerPatch {
     String? userName,
     int? userAge,
     String? userEmail,
-    int? userPhone,
+    String? userPhone,
     String? userAddress,
     String? userCity,
     String? userCountry,
