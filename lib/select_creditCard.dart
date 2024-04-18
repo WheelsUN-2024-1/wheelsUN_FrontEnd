@@ -1,6 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:wheels_un/constants.dart';
+import 'package:http/http.dart' as http;
+
+class CreditCard {
+  final String name;
+  final String number;
+  final String id;
+
+  CreditCard({required this.name, required this.number, required this.id});
+}
 
 class SelectCreditCard extends StatefulWidget {
   @override
@@ -8,65 +18,131 @@ class SelectCreditCard extends StatefulWidget {
 }
 
 class _SelectCreditCardState extends State<SelectCreditCard> {
-  final String creditCardUrl = "http://127.0.0.1:8100/transaction";
-  List<String> creditCards = []; // Lista para almacenar las tarjetas de crédito
-  int? _selectedIndex; // Cambiado para permitir deselección
-  String graphQLQuery =
-  ' query { creditCardByUser(id: 492 ) {number brand} }';
+  
+  final String creditCardUrl = AG_URL + "/transaction";
+  final String joinUrl = AG_URL + "/trip";
+  List<CreditCard> creditCards = [];
+  int? _selectedIndex;
+  int userId = 492;
+  String tripId = "660bf2818a65cc44a2871b54";
+  String passengerEmail = "ana@gmail.com";
+  String stopPoint = "Centro Comercial Gran Estación";
+ 
+  
   @override
   void initState() {
     super.initState();
-    fetchCreditCards(); // Llama a la función para obtener las tarjetas de crédito
+    fetchCreditCards(userId);
   }
 
-  Future<void> fetchCreditCards() async {
-  try {
-    var url = Uri.parse(creditCardUrl);
-    var response = await http.post(
-      url,
-      headers: {"Content-type": "application/json"},
-      body: json.encode({'query': graphQLQuery}),
-    );
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      if (data['data'] != null && data['data']['creditCardByUser'] != null) {
-        List<dynamic> cards = data['data']['creditCardByUser'];
-        setState(() {
-          creditCards = cards.map((card) => "${card['brand']} - ${card['number']}").toList();
-        });
+  Future<void> fetchCreditCards(userId) async {
+     String graphQLQueryFetch = 'query { creditCardByUser(id: $userId ) {creditCardId number brand} }';
+    try {
+      var url = Uri.parse(creditCardUrl);
+      var response = await http.post(
+        url,
+        headers: {"Content-type": "application/json"},
+        body: json.encode({'query': graphQLQueryFetch}),
+      );
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data['data'] != null && data['data']['creditCardByUser'] != null) {
+          List<dynamic> cards = data['data']['creditCardByUser'];
+          setState(() {
+            creditCards = cards.map((card) =>
+                CreditCard(
+                  name: card['brand'],
+                  number: card['number'].toString(),
+                  id: card['creditCardId'].toString(),
+                )
+            ).toList();
+          });
+        } else {
+          print('No credit card data available.');
+        }
       } else {
-        print('No credit card data available.');
+        print('Error in POST request');
+        print('Server status code: ${response.statusCode}');
+        print('Server response: ${response.body}');
       }
+    } catch (e) {
+      print('Exception occurred: $e');
+      print('Failed to connect');
+    }
+  }
+
+  Future<void> join_trip(tripId, passengerEmail, creditCardId, stopPoint) async{
+    String graphQLQuery = 'mutation { joinTrip( tripId: "$tripId", creditCardId: $creditCardId,	passengerEmail:"$passengerEmail", stopPoint:"$stopPoint") {waypoints}}'; 
+    try {
+      var url = Uri.parse(joinUrl);
+      var response = await http.post(
+        url,
+        headers: {"Content-type": "application/json"},
+        body: json.encode({'query': graphQLQuery}),);
+      if (response.statusCode == 200) {
+      // The request was successful
+      print('Successful POST request');
+      print('Server response: ${response.body}');
     } else {
+      // The request failed
       print('Error in POST request');
       print('Server status code: ${response.statusCode}');
       print('Server response: ${response.body}');
     }
-  } catch (e) {
-    print('Exception occurred: $e');
-    print('Failed to connect');
+      
+    } catch (e) {
+      print('Exception occurred: $e');
+      print('Failed to connect');
+    }
   }
-}
+
+  String getNameOfSelectedCreditCard() {
+    if (_selectedIndex != null) {
+      return creditCards[_selectedIndex!].id;
+    } else {
+      return ''; // O puedes retornar null, según tu lógica de manejo de errores
+    }
+  }
+
+  String handleSelectedCreditCard() {
+    if (_selectedIndex != null) {
+      return getNameOfSelectedCreditCard();
+    } else {
+      return ''; // O puedes retornar null, según tu lógica de manejo de errores
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Select Credit Card'),
+        title: Text('Selecciona una tarjeta de crédito'),
       ),
       body: ListView.builder(
         itemCount: creditCards.length,
         itemBuilder: (context, index) {
           return CheckboxListTile(
-            title: Text(creditCards[index]),
+            title: Text('${creditCards[index].name} - ${creditCards[index].number}'),
             value: _selectedIndex == index,
             onChanged: (value) {
               setState(() {
-                _selectedIndex = value! ? index : null; // Actualiza el índice seleccionado
+                _selectedIndex = value! ? index : null;
               });
             },
           );
         },
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+          child: ElevatedButton(
+            onPressed: () {
+              String id = handleSelectedCreditCard();
+              join_trip(tripId, passengerEmail, id, stopPoint);
+            },
+            child: Text('Seleccionar tarjeta para realizar la transacción'),
+          ),
+        ),
       ),
     );
   }
