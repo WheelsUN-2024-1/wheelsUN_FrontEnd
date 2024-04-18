@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wheels_un/list_trips.dart';
 import 'package:wheels_un/map_page.dart';
 import 'package:wheels_un/add_new_creditCard.dart';
 import 'package:wheels_un/pages/login_page.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
       //home: LoginPage(),
       //home: SignUpPage(),
       //home: RegisterVehiclePage()
+      // home: ListTrips()
 
     );
   }
