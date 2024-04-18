@@ -1,4 +1,20 @@
+<<<<<<< HEAD
 2024/04/17-17:21:30.675 3cd8 Reusing MANIFEST C:\Users\JOHANI~1\AppData\Local\Temp\flutter_tools.23200b9c\flutter_tools_chrome_device.4526b01c\Default\shared_proto_db/MANIFEST-000001
 2024/04/17-17:21:30.676 3cd8 Recovering log #4
 2024/04/17-17:21:30.677 3cd8 Reusing old log C:\Users\JOHANI~1\AppData\Local\Temp\flutter_tools.23200b9c\flutter_tools_chrome_device.4526b01c\Default\shared_proto_db/000004.log 
 2024/04/17-17:21:30.678 3cd8 Delete type=0 #3
+=======
+2024/04/17-20:22:20.793 425c Reusing MANIFEST C:\Users\admin\AppData\Local\Temp\flutter_tools.ae17636d\flutter_tools_chrome_device.5b6385b5\Default\shared_proto_db/MANIFEST-000001
+2024/04/17-20:22:20.795 425c Recovering log #19
+2024/04/17-20:22:20.796 425c Reusing old log C:\Users\admin\AppData\Local\Temp\flutter_tools.ae17636d\flutter_tools_chrome_device.5b6385b5\Default\shared_proto_db/000019.log 
+2024/04/17-20:22:20.797 425c Delete type=0 #3
+2024/04/17-20:22:20.797 425c Delete type=0 #4
+2024/04/17-20:22:20.797 425c Delete type=0 #7
+2024/04/17-20:22:20.797 425c Delete type=2 #8
+2024/04/17-20:22:20.798 425c Delete type=0 #10
+2024/04/17-20:22:20.798 425c Delete type=2 #11
+2024/04/17-20:22:20.798 425c Delete type=0 #13
+2024/04/17-20:22:20.798 425c Delete type=2 #14
+2024/04/17-20:22:20.799 425c Delete type=0 #16
+2024/04/17-20:22:20.799 425c Delete type=2 #17
+>>>>>>> join_

@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 2024/04/17-17:21:30.638 4c4c Reusing MANIFEST C:\Users\JOHANI~1\AppData\Local\Temp\flutter_tools.23200b9c\flutter_tools_chrome_device.4526b01c\Default\Session Storage/MANIFEST-000001
 2024/04/17-17:21:30.649 4c4c Recovering log #3
 2024/04/17-17:21:30.662 4c4c Reusing old log C:\Users\JOHANI~1\AppData\Local\Temp\flutter_tools.23200b9c\flutter_tools_chrome_device.4526b01c\Default\Session Storage/000003.log 
+=======
+2024/04/17-20:22:20.737 228c Reusing MANIFEST C:\Users\admin\AppData\Local\Temp\flutter_tools.ae17636d\flutter_tools_chrome_device.5b6385b5\Default\Session Storage/MANIFEST-000001
+2024/04/17-20:22:20.739 228c Recovering log #3
+2024/04/17-20:22:20.745 228c Reusing old log C:\Users\admin\AppData\Local\Temp\flutter_tools.ae17636d\flutter_tools_chrome_device.5b6385b5\Default\Session Storage/000003.log 
+>>>>>>> join_
