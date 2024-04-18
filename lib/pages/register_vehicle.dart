@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:wheels_un/components/my_button.dart';
 import 'package:wheels_un/components/my_form_textfield.dart';
+import 'package:wheels_un/services/api_service.dart';
+import 'package:wheels_un/graphql/graphql_client.dart';
+import 'package:wheels_un/models/vehicle_model.dart';
 
 class RegisterVehiclePage extends StatelessWidget {
   RegisterVehiclePage({Key? key}) : super(key: key);
 
-  final _formKey = GlobalKey<FormState>(); // Define GlobalKey for the Form
-
+  final _formKey = GlobalKey<FormState>();
   final ccOwnerController = TextEditingController();
   final plateController = TextEditingController();
   final brandController = TextEditingController();
@@ -15,10 +17,33 @@ class RegisterVehiclePage extends StatelessWidget {
   final yearController = TextEditingController();
   final seatingCapacityController = TextEditingController();
 
-  void registerVehicle() {
+  void registerVehicle(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
-      // If the form is valid, proceed with sign-up logic
-      print('Register new vehicle successful!');
+      final apiService = ApiService(getGraphQLClient());
+      final vehicleModel = VehicleInput(
+        vehicleBrand: brandController.text,
+        vehicleCylinder: cylinderController.text,
+        vehicleModel: modelController.text,
+        vehicleOwnerId: int.parse(ccOwnerController.text),
+        vehiclePlate: plateController.text,
+        vehicleSeatingCapacity: int.parse(seatingCapacityController.text),
+        vehicleYear: int.parse(yearController.text),
+      );
+
+      final response = await apiService.createNewVehicle(vehicleModel);
+      if (response.data == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to create vehicle. Please try again.'),
+          ),
+        );
+        print('Register new vehicle failed');
+      } else {
+        // Vehicle created successfully, navigate to previous page or do other actions
+        print('Register new vehicle successful');
+      }
+      //print(response.data);
+      
     }
   }
 
@@ -28,8 +53,8 @@ class RegisterVehiclePage extends StatelessWidget {
       backgroundColor: Colors.grey[300],
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Form( // Wrap input fields with Form widget
-            key: _formKey, // Assign GlobalKey to the Form
+          child: Form(
+            key: _formKey,
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -100,7 +125,7 @@ class RegisterVehiclePage extends StatelessWidget {
                   
                   const SizedBox(height: 10),
                   MyButton(
-                    onTap: registerVehicle,
+                    onTap: () => registerVehicle(context),
                   ),
                 ],
               ),
@@ -146,21 +171,21 @@ String? validatePlate(String? value) {
     return 'Please enter a valid vehicle plate (e.g., AAA000)';
   }
 
-  return null; // Return null if validation passes
+  return null;
 }
 
 String? validateBrand(String? value) {
   if (value == null || value.isEmpty) {
     return 'Please enter the brand';
   }
-  return null; // Return null if validation passes
+  return null;
 }
 
 String? validateModel(String? value) {
   if (value == null || value.isEmpty) {
     return 'Please enter the model';
   }
-  return null; // Return null if validation passes
+  return null;
 }
 
 String? validateYear(String? value) {
@@ -178,7 +203,7 @@ String? validateYear(String? value) {
     return 'Please enter a valid year (positive integer)';
   }
 
-  return null; // Return null if validation passes
+  return null;
 }
 
 String? validateSeatingCapacity(String? value) {
@@ -196,5 +221,5 @@ String? validateSeatingCapacity(String? value) {
     return 'Please enter a valid seating capacity';
   }
 
-  return null; // Return null if validation passes
+  return null;
 }

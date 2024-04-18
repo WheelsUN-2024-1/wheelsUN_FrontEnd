@@ -123,9 +123,9 @@
     },
     {
       "name": "flutter_plugin_android_lifecycle",
-      "rootUri": "file:///home/carlos/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.17",
+      "rootUri": "file:///home/carlos/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.19",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.2"
     },
     {
       "name": "flutter_test",
@@ -518,7 +518,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2024-04-12T20:14:01.803216Z",
+  "generated": "2024-04-18T11:26:03.013212Z",
   "generator": "pub",
   "generatorVersion": "3.3.3"
 }
