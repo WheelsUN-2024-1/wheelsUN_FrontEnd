@@ -5,6 +5,7 @@ import 'package:wheels_un/pages/login_page.dart';
 import 'package:wheels_un/pages/sign_up_page.dart';
 import 'package:wheels_un/pages/register_vehicle.dart';
 import 'package:wheels_un/select_creditCard.dart';
+import 'package:wheels_un/view_creditcards.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
       //home: SignUpPage(),
       //home: RegisterVehiclePage()
       home: SelectCreditCard()
-
+      //home: ViewCreditCards()
     );
   }
 }

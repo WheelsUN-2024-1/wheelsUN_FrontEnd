@@ -159,7 +159,6 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
       url,
       headers: {"Content-type": "application/json"},
       body: json.encode({'query': graphQLQuery}),);
-    final data = jsonDecode(response.body);
 
     if (response.statusCode == 200) {
       // The request was successful
