@@ -12,6 +12,11 @@ class CreditCard {
 }
 
 class SelectCreditCard extends StatefulWidget {
+  final String selectedPrediction;
+  final String tripId;
+
+  SelectCreditCard({required this.selectedPrediction, required this.tripId});
+
   @override
   _SelectCreditCardState createState() => _SelectCreditCardState();
 }
@@ -29,6 +34,8 @@ class _SelectCreditCardState extends State<SelectCreditCard> {
   @override
   void initState() {
     super.initState();
+    stopPoint = widget.selectedPrediction;
+    tripId = widget.tripId;
     fetchCreditCards(userId);
   }
 

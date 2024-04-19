@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:wheels_un/map_page.dart';
 import 'package:wheels_un/models/Trip.dart';
 import 'package:wheels_un/services/location_service.dart';
 import 'package:wheels_un/services/network_utils.dart';
@@ -71,9 +72,13 @@ class _ListTripsState extends State<ListTrips> {
                 shrinkWrap: true,
                 itemCount: listTrips.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    width: 100,
-                    height: 100,
+                  return TextButton(
+                    onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => MapPage(tripId: listTrips[index].id),)
+                );
+              },
                     child: Text('id: ${listTrips[index].id} \n inicio: ${listTrips[index].startingPoint} \n final: ${listTrips[index].endingPoint}' ),  
                 );
                 }),
