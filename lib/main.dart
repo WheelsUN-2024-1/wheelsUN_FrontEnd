@@ -20,19 +20,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes:{
-        "creditCard":(context) => AddNewCardScreen(),
-        "map": (context) => MapPage()
+        "creditCard":(context) => AddNewCardScreen()
       },
       debugShowCheckedModeBanner: false,
      
-      //home: MapPage(),
+      // home: MapPage(),
       //home: AddNewCardScreen(),
       //home: LoginPage(),
       //home: SignUpPage(),
       //home: RegisterVehiclePage()
-      // home: ListTrips()
+      home: ListTrips()
 
-      home: SelectCreditCard()
       //home: ViewCreditCards()
     );
   }

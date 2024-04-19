@@ -2,6 +2,9 @@
 connectivity_plus=/home/carlos/.pub-cache/hosted/pub.dev/connectivity_plus-5.0.2/
 flutter_credit_card=/home/carlos/.pub-cache/hosted/pub.dev/flutter_credit_card-4.0.1/
 flutter_plugin_android_lifecycle=/home/carlos/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.19/
+geocoding=/home/carlos/.pub-cache/hosted/pub.dev/geocoding-2.2.2/
+geocoding_android=/home/carlos/.pub-cache/hosted/pub.dev/geocoding_android-3.3.0/
+geocoding_ios=/home/carlos/.pub-cache/hosted/pub.dev/geocoding_ios-2.3.0/
 google_maps_flutter=/home/carlos/.pub-cache/hosted/pub.dev/google_maps_flutter-2.6.0/
 google_maps_flutter_android=/home/carlos/.pub-cache/hosted/pub.dev/google_maps_flutter_android-2.7.0/
 google_maps_flutter_ios=/home/carlos/.pub-cache/hosted/pub.dev/google_maps_flutter_ios-2.5.2/

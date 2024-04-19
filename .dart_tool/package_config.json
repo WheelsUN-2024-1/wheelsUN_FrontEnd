@@ -140,6 +140,30 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "geocoding",
+      "rootUri": "file:///home/carlos/.pub-cache/hosted/pub.dev/geocoding-2.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "geocoding_android",
+      "rootUri": "file:///home/carlos/.pub-cache/hosted/pub.dev/geocoding_android-3.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "geocoding_ios",
+      "rootUri": "file:///home/carlos/.pub-cache/hosted/pub.dev/geocoding_ios-2.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "geocoding_platform_interface",
+      "rootUri": "file:///home/carlos/.pub-cache/hosted/pub.dev/geocoding_platform_interface-3.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "google_maps",
       "rootUri": "file:///home/carlos/.pub-cache/hosted/pub.dev/google_maps-7.1.0",
       "packageUri": "lib/",
@@ -404,6 +428,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "selectable_list",
+      "rootUri": "file:///home/carlos/.pub-cache/hosted/pub.dev/selectable_list-0.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "sky_engine",
       "rootUri": "file:///home/carlos/development/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
@@ -518,7 +548,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2024-04-18T11:26:03.013212Z",
+  "generated": "2024-04-18T13:57:24.099897Z",
   "generator": "pub",
   "generatorVersion": "3.3.3"
 }

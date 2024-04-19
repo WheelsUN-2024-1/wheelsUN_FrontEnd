@@ -1,8 +1,12 @@
-2024/04/16-09:04:15.398 9572 Reusing MANIFEST /tmp/flutter_tools.QEALKO/flutter_tools_chrome_device.UGWGIF/Default/shared_proto_db/MANIFEST-000001
-2024/04/16-09:04:15.399 9572 Recovering log #7
-2024/04/16-09:04:15.400 9572 Reusing old log /tmp/flutter_tools.QEALKO/flutter_tools_chrome_device.UGWGIF/Default/shared_proto_db/000007.log 
-2024/04/16-09:04:15.401 9572 Delete type=0 #5
-2024/04/16-09:04:15.401 9572 Delete type=0 #4
-2024/04/16-09:04:15.401 9572 Delete type=2 #6
-2024/04/16-09:04:15.401 9572 Delete type=2 #5
-2024/04/16-09:04:15.402 9572 Delete type=0 #3
+2024/04/19-10:17:31.947 be58 Reusing MANIFEST /tmp/flutter_tools.LTDQWG/flutter_tools_chrome_device.ZGJIYT/Default/shared_proto_db/MANIFEST-000001
+2024/04/19-10:17:31.947 be58 Recovering log #10
+2024/04/19-10:17:31.949 be58 Reusing old log /tmp/flutter_tools.LTDQWG/flutter_tools_chrome_device.ZGJIYT/Default/shared_proto_db/000010.log 
+2024/04/19-10:17:31.949 be58 Delete type=0 #5
+2024/04/19-10:17:31.949 be58 Delete type=2 #8
+2024/04/19-10:17:31.949 be58 Delete type=2 #3
+2024/04/19-10:17:31.950 be58 Delete type=0 #4
+2024/04/19-10:17:31.950 be58 Delete type=0 #7
+2024/04/19-10:17:31.950 be58 Delete type=2 #4
+2024/04/19-10:17:31.950 be58 Delete type=2 #6
+2024/04/19-10:17:31.950 be58 Delete type=2 #5
+2024/04/19-10:17:31.950 be58 Delete type=0 #3
