@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wheels_un/list_trips.dart';
 import 'package:wheels_un/map_page.dart';
 import 'package:wheels_un/add_new_creditCard.dart';
+import 'package:wheels_un/pages/home_page.dart';
 import 'package:wheels_un/pages/login_page.dart';
 import 'package:wheels_un/pages/sign_up_page.dart';
 import 'package:wheels_un/pages/register_vehicle.dart';
@@ -19,24 +20,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      routes:{
-        "creditCard":(context) => AddNewCardScreen(),
+      routes: {
+        "creditCard": (context) => AddNewCardScreen(),
         "map": (context) => MapPage()
       },
       debugShowCheckedModeBanner: false,
-     
+
+      home: HomePage(),
       //home: MapPage(),
       //home: AddNewCardScreen(),
       //home: LoginPage(),
       //home: SignUpPage(),
       //home: RegisterVehiclePage()
       // home: ListTrips()
-
-      home: SelectCreditCard()
+      //home: SelectCreditCard()
       //home: ViewCreditCards()
     );
   }
 }
-
-
-
