@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:wheels_un/constants.dart';
 import 'package:http/http.dart' as http;
@@ -23,7 +22,6 @@ class SelectCreditCard extends StatefulWidget {
 }
 
 class _SelectCreditCardState extends State<SelectCreditCard> {
-  
   final String creditCardUrl = AG_URL + "/transaction";
   final String joinUrl = AG_URL + "/trip";
   List<CreditCard> creditCards = [];
@@ -32,8 +30,7 @@ class _SelectCreditCardState extends State<SelectCreditCard> {
   String tripId = "660bf2818a65cc44a2871b54";
   String passengerEmail = "ana@gmail.com";
   String stopPoint = "Centro Comercial Gran Estación";
- 
-  
+
   @override
   void initState() {
     super.initState();
@@ -43,7 +40,7 @@ class _SelectCreditCardState extends State<SelectCreditCard> {
   }
 
   Future<void> fetchCreditCards(userId) async {
-     String graphQLQueryFetch = 'query { creditCardByUser(id: $userId ) {creditCardId number brand} }';
+    String graphQLQueryFetch = 'query { creditCardByUser(id: $userId ) {creditCardId number brand} }';
     try {
       var url = Uri.parse(creditCardUrl);
       var response = await http.post(
@@ -78,49 +75,36 @@ class _SelectCreditCardState extends State<SelectCreditCard> {
     }
   }
 
-  Future<void> join_trip(tripId, passengerEmail, creditCardId, stopPoint) async{
-    print(tripId);
-    print(creditCardId);
-    print(passengerEmail);
-    print(stopPoint);
-    String graphQLQuery = 'mutation { joinTrip( tripId: "$tripId", creditCardId: $creditCardId,	passengerEmail:"$passengerEmail", stopPoint:"$stopPoint") {waypoints}}'; 
-    print(graphQLQuery);
+  Future<void> join_trip(tripId, passengerEmail, creditCardId, stopPoint) async {
+    String graphQLQuery = 'mutation { joinTrip( tripId: "$tripId", creditCardId: $creditCardId,	passengerEmail:"$passengerEmail", stopPoint:"$stopPoint") {waypoints}}';
     try {
       var url = Uri.parse(joinUrl);
       var response = await http.post(
         url,
         headers: {"Content-type": "application/json"},
-        body: json.encode({'query': graphQLQuery}),);
+        body: json.encode({'query': graphQLQuery}),
+      );
       if (response.statusCode == 200) {
-      // The request was successful
-      print('Successful POST request');
-      print('Server response: ${response.body}');
-    } else {
-      // The request failed
-      print('Error in POST request');
-      print('Server status code: ${response.statusCode}');
-      print('Server response: ${response.body}');
-    }
-      
+        // The request was successful
+        print('Successful POST request');
+        print('Server response: ${response.body}');
+      } else {
+        // The request failed
+        print('Error in POST request');
+        print('Server status code: ${response.statusCode}');
+        print('Server response: ${response.body}');
+      }
     } catch (e) {
       print('Exception occurred: $e');
       print('Failed to connect');
     }
   }
 
-  String getNameOfSelectedCreditCard() {
+  String? getNameOfSelectedCreditCard() {
     if (_selectedIndex != null) {
       return creditCards[_selectedIndex!].id;
     } else {
-      return ''; // O puedes retornar null, según tu lógica de manejo de errores
-    }
-  }
-
-  String handleSelectedCreditCard() {
-    if (_selectedIndex != null) {
-      return getNameOfSelectedCreditCard();
-    } else {
-      return ''; // O puedes retornar null, según tu lógica de manejo de errores
+      return null;
     }
   }
 
@@ -149,8 +133,28 @@ class _SelectCreditCardState extends State<SelectCreditCard> {
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
           child: ElevatedButton(
             onPressed: () {
-              String id = handleSelectedCreditCard();
-              join_trip(tripId, passengerEmail, id, stopPoint);
+              String? id = getNameOfSelectedCreditCard();
+              if (id != null) {
+                join_trip(tripId, passengerEmail, id, stopPoint);
+              } else {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Error'),
+                      content: Text('Por favor, selecciona una tarjeta de crédito.'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              }
             },
             child: Text('Seleccionar tarjeta para realizar la transacción'),
           ),
