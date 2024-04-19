@@ -32,10 +32,7 @@ class MyApp extends StatelessWidget {
       //home: LoginPage(),
       home: SignUpPage(),
       //home: RegisterVehiclePage()
-<<<<<<< HEAD
-=======
       // home: ListTrips()
->>>>>>> 8565fbbea29acb639c62a80e5400adbed0c67dd2
       //home: SelectCreditCard()
       //home: ViewCreditCards()
     );
