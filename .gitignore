@@ -45,3 +45,4 @@ app.*.map.json
 .flutter-plugins
 pubspec.lock
 linux/flutter/generated_plugin_registrant.cc
+

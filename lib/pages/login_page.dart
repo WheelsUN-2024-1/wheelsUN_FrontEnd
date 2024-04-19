@@ -40,7 +40,8 @@ class LoginPage extends StatelessWidget {
           SnackBar(content: Text(response.exception.toString())),
         );
       } else {
-   
+        print("Login successful");
+        print(response.data);
      /*    Navigator.pushReplacementNamed(
             context, '/home');  */
       }
