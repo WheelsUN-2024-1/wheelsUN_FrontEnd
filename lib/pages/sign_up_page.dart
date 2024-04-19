@@ -13,8 +13,8 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  final _driverFormKey = GlobalKey<FormState>(); // GlobalKey for driver form
-  final _passengerFormKey = GlobalKey<FormState>(); // GlobalKey for passenger form
+  final _driverFormKey = GlobalKey<FormState>(); 
+  final _passengerFormKey = GlobalKey<FormState>(); 
 
   final ccController = TextEditingController();
   final nameController = TextEditingController();
@@ -28,13 +28,13 @@ class _SignUpPageState extends State<SignUpPage> {
   final licenseExpDateController = TextEditingController();
   final passwordController = TextEditingController();
 
-  bool isDriver = false; // Flag to track if the user is registering as a driver
+  bool isDriver = false; 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>(); 
 
-  void signUserUp() async{
+  void signUserUp() async {
     final apiService = ApiService(getGraphQLClient());
     if (isDriver) {
       if (_driverFormKey.currentState!.validate()) {
-        // If the driver form is valid, proceed with sign-up logic for driver
         final driverModel = DriverInput(
           userIdNumber: int.parse(ccController.text), 
           userName: nameController.text, 
@@ -46,19 +46,17 @@ class _SignUpPageState extends State<SignUpPage> {
           userCountry: countryController.text, 
           userPostalCode: postalCodeController.text, 
           userLicenseExpirationDate: licenseExpDateController.text
-          );
+        );
         final response = await apiService.createNewDriver(driverModel, passwordController.text);
-        if(response.data == null){
-          //error message (should only show a error message)
-          print('Register new driver failed');
-        }else{
-          //driver created (should show message and redirect to the login page)
+        if (response.data == null) {
+          _showErrorSnackBar(context, 'Register new driver failed'); // Show error message
+        } else {
+          // driver created (should show message and redirect to the login page)
           print('Register new driver successful');
         }
       }
     } else {
       if (_passengerFormKey.currentState!.validate()) {
-        // If the passenger form is valid, proceed with sign-up logic for passenger
         final passengerModel = PassengerInput(
           userIdNumber: int.parse(ccController.text), 
           userName: nameController.text, 
@@ -71,20 +69,28 @@ class _SignUpPageState extends State<SignUpPage> {
           userPostalCode: postalCodeController.text
         );
         final response = await apiService.createNewPassenger(passengerModel, passwordController.text);
-        if(response.data == null){
-          //error message (should only show a error message)
-          print('Register new passenger failed');
-        }else{
-          //passenger created (should show message and redirect to the login page)
+        if (response.data == null) {
+          _showErrorSnackBar(context, 'Register new passenger failed'); // Show error message
+        } else {
+          // passenger created (should show message and redirect to the login page)
           print('Register new passenger successful');
         }
       }
     }
   }
 
+  void _showErrorSnackBar(BuildContext context, String errorMessage) {
+    final snackBar = SnackBar(
+      content: Text(errorMessage),
+      duration: Duration(seconds: 3),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey, 
       backgroundColor: Colors.grey[300],
       body: SafeArea(
         child: SingleChildScrollView(
