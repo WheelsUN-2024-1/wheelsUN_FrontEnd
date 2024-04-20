@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:wheels_un/components/round_images.dart';
-import 'package:wheels_un/components/square_texfield.dart';
 
 class MyButtonRole extends StatelessWidget {
   final String text;
