@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:wheels_un/add_new_creditCard.dart';
 import 'package:wheels_un/list_trips.dart';
-import 'package:wheels_un/map_page.dart';
 import 'package:wheels_un/pages/landing_page.dart';
-import 'package:wheels_un/pages/profile_page.dart';
+import 'package:wheels_un/pages/sign_up_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -23,7 +21,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
     LandingPage(),
     ListTrips(),
-    ProfilePage(),
+    SignUpPage(),
   ];
 
   @override

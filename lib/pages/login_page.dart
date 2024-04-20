@@ -10,7 +10,9 @@ import 'package:wheels_un/pages/home_page.dart';
 
 
 class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+  final String role;
+  
+  LoginPage({super.key, required this.role});
 
   // text editing controllers
   final usernameController = TextEditingController();

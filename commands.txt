@@ -7,6 +7,8 @@ flutter upgrade
 
 flutter run -d chrome --web-port=9200
 
+git rm -r --cached .
+
 *******************
 
 Color palette
