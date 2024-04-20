@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wheels_un/components/my_display_textfield.dart';
 import 'package:wheels_un/globalVariables/user_data.dart';
+import 'package:wheels_un/view_creditcards.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({Key? key}) : super(key: key);
@@ -121,6 +122,10 @@ class ProfilePage extends StatelessWidget {
                           icon: const Icon(Icons.credit_card),
                           onPressed: () {
                             //router to the credit card page
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => ViewCreditCards()),
+                            );
                           },
                           color: const Color(0xFF68BB92),
                         ),

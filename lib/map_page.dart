@@ -42,6 +42,7 @@ class _MapPageState extends State<MapPage> {
   if(address == null) return;
   try {
     List<Location> locations = await locationFromAddress(address);
+    print("this are my locations");
     print(locations);
     Location location = locations.first;
     

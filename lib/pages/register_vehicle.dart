@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wheels_un/components/my_button.dart';
 import 'package:wheels_un/components/my_form_textfield.dart';
+import 'package:wheels_un/pages/view_vehicles_page.dart';
 import 'package:wheels_un/services/api_service.dart';
 import 'package:wheels_un/graphql/graphql_client.dart';
 import 'package:wheels_un/models/vehicle_model.dart';
@@ -41,6 +42,10 @@ class RegisterVehiclePage extends StatelessWidget {
       } else {
         // Vehicle created successfully, navigate to previous page or do other actions
         print('Register new vehicle successful');
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => ViewVehiclesPage()),
+        );
       }
       //print(response.data);
       
@@ -126,6 +131,7 @@ class RegisterVehiclePage extends StatelessWidget {
                   const SizedBox(height: 10),
                   MyButton(
                     onTap: () => registerVehicle(context),
+                    text: "Add Vehicle",
                   ),
                 ],
               ),

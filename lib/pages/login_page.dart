@@ -6,7 +6,7 @@ import 'package:wheels_un/graphql/graphql_client.dart';
 import 'package:wheels_un/models/auth_model.dart';
 import 'package:wheels_un/services/api_service.dart';
 import 'package:wheels_un/globalVariables/user_data.dart';
-import 'package:wheels_un/pages/profile_page.dart';
+import 'package:wheels_un/pages/home_page.dart';
 
 
 class LoginPage extends StatelessWidget {
@@ -63,7 +63,7 @@ class LoginPage extends StatelessWidget {
         //here should go to homePage, this ProfilePage router is just for testing
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => ProfilePage()),
+          MaterialPageRoute(builder: (context) => HomePage()),
         );
 
         
@@ -139,6 +139,7 @@ class LoginPage extends StatelessWidget {
               // sign in button
               MyButton(
                 onTap: signUserIn,
+                text: "Sign In",
               ),
 
               const SizedBox(height: 50),

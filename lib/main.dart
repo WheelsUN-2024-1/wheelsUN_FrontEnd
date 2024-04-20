@@ -9,6 +9,7 @@ import 'package:wheels_un/pages/register_vehicle.dart';
 import 'package:wheels_un/pages/profile_page.dart';
 import 'package:wheels_un/select_creditCard.dart';
 import 'package:wheels_un/view_creditcards.dart';
+import 'package:wheels_un/pages/view_vehicles_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,11 +28,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
       //home: HomePage(),
-      //home: MapPage(),
-      // home: MapPage(),
+      //home: MapPage(tripId: "660bf2818a65cc44a2871b54"),
       //home: AddNewCardScreen(),
-      home: LoginPage(),
+      //home: LoginPage(),
       //home: SignUpPage(),
+      home: ViewVehiclesPage()
       //home: RegisterVehiclePage()
       //home: ProfilePage(),
       // home: ListTrips()
