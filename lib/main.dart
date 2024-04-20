@@ -4,6 +4,7 @@ import 'package:wheels_un/map_page.dart';
 import 'package:wheels_un/add_new_creditCard.dart';
 import 'package:wheels_un/pages/home_page.dart';
 import 'package:wheels_un/pages/login_page.dart';
+import 'package:wheels_un/pages/role_page.dart';
 import 'package:wheels_un/pages/sign_up_page.dart';
 import 'package:wheels_un/pages/register_vehicle.dart';
 import 'package:wheels_un/pages/profile_page.dart';
@@ -26,13 +27,13 @@ class MyApp extends StatelessWidget {
         "creditCard": (context) => AddNewCardScreen()
       },
       debugShowCheckedModeBanner: false,
-
+      home: RolePage(),
       //home: HomePage(),
       //home: MapPage(tripId: "660bf2818a65cc44a2871b54"),
       //home: AddNewCardScreen(),
       //home: LoginPage(),
       //home: SignUpPage(),
-      home: ViewVehiclesPage()
+      //home: ViewVehiclesPage()
       //home: RegisterVehiclePage()
       //home: ProfilePage(),
       // home: ListTrips()
