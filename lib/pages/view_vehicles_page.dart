@@ -1,33 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:wheels_un/graphql/graphql_client.dart';
 import 'package:wheels_un/pages/register_vehicle.dart';
 import 'package:wheels_un/pages/profile_page.dart';
 import 'package:wheels_un/globalVariables/user_data.dart';
+import 'package:wheels_un/models/vehicle_model.dart';
+import 'package:wheels_un/services/api_service.dart';
 
-class Vehicle {
-  final String plate;
-  final String model;
-  final int year;
-
-  Vehicle({
-    required this.plate,
-    required this.model,
-    required this.year,
-  });
-}
-
-List<Vehicle> vehicles = [
-  Vehicle(plate: 'ABC123', model: 'Toyota Camry', year: 2020),
-  Vehicle(plate: 'XYZ789', model: 'Honda Civic', year: 2018),
-  Vehicle(plate: 'DEF456', model: 'Ford Mustang', year: 2019),
-];
+List<VehicleModel> vehicles = [];
 
 class ViewVehiclesPage extends StatelessWidget {
-  //appIdNumber = 666;
-
   ViewVehiclesPage();
 
   @override
   Widget build(BuildContext context) {
+    //#######this is for debug############
+    appIdNumber = 666;
+    appIsDriver = true;
+    //####################################
+
+    return FutureBuilder<void>(
+      future: getVehicles(context),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // While waiting for the data, display a loading indicator
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          // If an error occurs, display an error message
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else {
+          // If the data is successfully fetched, build the UI with the vehicles
+          return buildViewWithVehicles(context);
+        }
+      },
+    );
+  }
+
+  Future<void> getVehicles(BuildContext context) async {
+    final apiService = ApiService(getGraphQLClient());
+    final response = await apiService.vehicleById(appIdNumber);
+    if (response.hasException) {
+      throw Exception(response.exception.toString());
+    } else {
+      print("Get Vehicles successful");
+      List<dynamic> responseData = response.data?['vehicleById'];
+      vehicles = responseData.map((vehicleData) {
+        return VehicleModel(
+          vehiclePlate: vehicleData['vehiclePlate'],
+          vehicleModel: vehicleData['vehicleModel'],
+          vehicleYear: vehicleData['vehicleYear'],
+          vehicleBrand: vehicleData['vehicleBrand'],
+          //this are just filler data
+          vehicleCylinder: "",
+          vehicleOwnerId: 0,
+          vehicleSeatingCapacity: 0,
+        );
+      }).toList();
+    }
+  }
+
+  Widget buildViewWithVehicles(BuildContext context) {
+    //print("my vehicles:");
+    //print(vehicles.length);
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
@@ -38,9 +71,9 @@ class ViewVehiclesPage extends StatelessWidget {
           onPressed: () {
             // Navigate back
             Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => ProfilePage()),
-          );
+              context,
+              MaterialPageRoute(builder: (context) => ProfilePage()),
+            );
           },
         ),
       ),
@@ -66,22 +99,33 @@ class ViewVehiclesPage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Placa: ${vehicles[index].plate}',
+                                  'Placa: ${vehicles[index].vehiclePlate}',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 SizedBox(height: 10),
-                                Text('Modelo: ${vehicles[index].model}'),
+                                Text('Modelo: ${vehicles[index].vehicleBrand} ${vehicles[index].vehicleModel}'),
                                 SizedBox(height: 10),
-                                Text('Año: ${vehicles[index].year}'),
+                                Text('Año: ${vehicles[index].vehicleYear}'),
                               ],
                             ),
                           ),
                           IconButton(
                             icon: Icon(Icons.close),
-                            onPressed: () {
+                            onPressed: () async{
                               //delete functionality
+                              final apiService = ApiService(getGraphQLClient());
+                              final response = await apiService.deleteVehicle(vehicles[index].vehiclePlate);
+                              if (response.hasException) {
+                                print("Delete Vehicle error: $response");
+                                throw Exception(response.exception.toString());
+                              } else {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => ViewVehiclesPage()),
+                                );
+                              }
                             },
                           ),
                         ],
