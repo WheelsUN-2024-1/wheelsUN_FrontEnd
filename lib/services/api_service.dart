@@ -195,6 +195,47 @@ Future<QueryResult> createNewPassenger(
     );
   }
 
+//search vehicle for userId (cedula)
+Future<QueryResult> vehicleById(int userId) async {
+  const String vehicleQuery = """
+    query VehicleById(\$id: Int!) {
+      vehicleById(id: \$id) {
+        vehiclePlate
+        vehicleBrand
+        vehicleModel
+        vehicleYear
+      }
+    }
+  """;
+
+  return await client.mutate(
+    MutationOptions(
+      document: gql(vehicleQuery),
+      variables: {
+        'id': userId
+      },
+    ),
+  );
+}
+
+//Delete vehicle for plate
+Future<QueryResult> deleteVehicle(String plate) async {
+  const String vehicleMutation = """
+    mutation deleteVehicle(\$plate: String!) {
+      deleteVehicle(plate: \$plate)
+    }
+  """;
+
+  return await client.mutate(
+    MutationOptions(
+      document: gql(vehicleMutation),
+      variables: {
+        'plate': plate
+      },
+    ),
+  );
+}
+
   // Método para crear una nueva tarjeta de crédito.
   Future<QueryResult> createCreditCard(CreditCardModel creditCardModel) async {
     const String createCreditCardMutation = """

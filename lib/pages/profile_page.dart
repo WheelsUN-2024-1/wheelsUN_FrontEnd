@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:wheels_un/components/my_display_textfield.dart';
 import 'package:wheels_un/globalVariables/user_data.dart';
 import 'package:wheels_un/view_creditcards.dart';
+import 'package:wheels_un/pages/view_vehicles_page.dart';
+import 'package:wheels_un/pages/home_page.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({Key? key}) : super(key: key);
@@ -11,6 +13,20 @@ class ProfilePage extends StatelessWidget {
     bool isDriver = appIsDriver; // Set this to true or false based on your logic
     return Scaffold(
       backgroundColor: Colors.grey[300],
+      appBar: AppBar(
+        title: Text('Mi perfil'), // Appbar title
+        leading: IconButton( // Button in the left side with an arrow icon
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            //router to home page
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+            );
+          },
+        ),
+        backgroundColor: const Color(0xFF68BB92),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -49,7 +65,7 @@ class ProfilePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       MyReadOnlyField(
-                        text: appIdNumber.toString() ,
+                        text: appIdNumber.toString(),
                         hintText: 'Cedula',
                       ),
                       const SizedBox(height: 20),
@@ -138,7 +154,6 @@ class ProfilePage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  
                   if (isDriver) ...[
                     const SizedBox(width: 50), // Add space between buttons
                     Column(
@@ -151,6 +166,10 @@ class ProfilePage extends StatelessWidget {
                             icon: const Icon(Icons.car_crash),
                             onPressed: () {
                               // router to the user's vehicles page
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(builder: (context) => ViewVehiclesPage()),
+                              );
                             },
                             color: const Color(0xFF68BB92),
                           ),
