@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:wheels_un/components/my_display_textfield.dart';
+import 'package:wheels_un/globalVariables/user_data.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    bool isDriver = true; // Set this to true or false based on your logic
-
+    bool isDriver = appIsDriver; // Set this to true or false based on your logic
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: Padding(
@@ -30,7 +30,7 @@ class ProfilePage extends StatelessWidget {
 
                   // welcome
                   Text(
-                    'Hola Ana!',
+                    'Hola $appName!',
                     style: TextStyle(
                       color: Colors.grey[700],
                       fontSize: 20,
@@ -41,29 +41,29 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 50),
-            const Row(
+            Row(
               children: [
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       MyReadOnlyField(
-                        text: '492',
+                        text: appIdNumber.toString() ,
                         hintText: 'Cedula',
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       MyReadOnlyField(
-                        text: '24',
+                        text: appAge.toString(),
                         hintText: 'Edad',
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       MyReadOnlyField(
-                        text: 'ana@gmail.com',
+                        text: appEmail,
                         hintText: 'Email',
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       MyReadOnlyField(
-                        text: '9876543210',
+                        text: appPhone,
                         hintText: 'Celular',
                       ),
                     ],
@@ -74,22 +74,22 @@ class ProfilePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       MyReadOnlyField(
-                        text: 'calle 23...',
+                        text: appAddress,
                         hintText: 'Dirección',
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       MyReadOnlyField(
-                        text: 'Bogota',
+                        text: appCity,
                         hintText: 'Ciudad',
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       MyReadOnlyField(
-                        text: 'Colombia',
+                        text: appCountry,
                         hintText: 'País',
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       MyReadOnlyField(
-                        text: 'userPostalCode',
+                        text: appPostalCode,
                         hintText: 'Código Postal',
                       ),
                     ],
@@ -99,9 +99,9 @@ class ProfilePage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             if (isDriver) ...[
-              const Center(
+              Center(
                 child: MyReadOnlyField(
-                  text: '2025-04-18', // Example date, replace with actual expiration date
+                  text: appLicenseExpirationDate, // Example date, replace with actual expiration date
                   hintText: 'Fecha de expiración de licencia',
                 ),
               ),

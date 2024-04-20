@@ -1,4 +1,5 @@
 // auth_model.dart
+import 'package:wheels_un/models/user_model.dart';
 
 class RegisterModel {
   String userId;
@@ -21,17 +22,20 @@ class LoginModel {
   LoginModel({required this.email, required this.password});
 }
 
-class LoginResponse {
+class PassengerLoginResponse {
   String token;
   String message;
+  PassengerModel passenger;
 
-  LoginResponse({required this.token, required this.message});
+  PassengerLoginResponse({required this.token, required this.message, required this.passenger});
 }
 
-class LoginResponseWithUserInfo extends LoginResponse {
-  dynamic user; // This should be replaced with the actual type of user (Driver or Passenger)
+class DriverLoginResponse {
+  String token;
+  String message;
+  DriverModel driver;
 
-  LoginResponseWithUserInfo({required super.token, required super.message, required this.user});
+  DriverLoginResponse({required this.token, required this.message, required this.driver});
 }
 
 class LogoutResponse {

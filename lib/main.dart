@@ -30,10 +30,10 @@ class MyApp extends StatelessWidget {
       //home: MapPage(),
       // home: MapPage(),
       //home: AddNewCardScreen(),
-      //home: LoginPage(),
+      home: LoginPage(),
       //home: SignUpPage(),
       //home: RegisterVehiclePage()
-      home: ProfilePage(),
+      //home: ProfilePage(),
       // home: ListTrips()
       //home: SelectCreditCard()
       //home: ViewCreditCards()
