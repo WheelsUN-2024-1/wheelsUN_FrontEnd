@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: RolePage(),
       //home: HomePage(),
-      home: MapPage(tripId: "660bf2818a65cc44a2871b54"),
+      //home: MapPage(tripId: "660bf2818a65cc44a2871b54"),
       //home: AddNewCardScreen(),
       //home: LoginPage(),
       //home: SignUpPage(),
