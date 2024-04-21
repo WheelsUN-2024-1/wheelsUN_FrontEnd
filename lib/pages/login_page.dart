@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:wheels_un/components/my_button.dart';
 import 'package:wheels_un/components/my_textfield.dart';
 import 'package:wheels_un/components/square_texfield.dart';
@@ -34,20 +35,27 @@ class LoginPage extends StatelessWidget {
         return;
       }
 
-      final loginModel = LoginModel(email: email, password: password);
+        final loginModel = LoginModel(email: email, password: password);
 
-
-      final response =
-          await apiService.passengerLogin(loginModel);
-
-      if (response.hasException) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(response.exception.toString())),
-        );
-      } else {
-        print("Login successful");
-        print(response.data);
         
+    
+        if (role == 'Passenger') {
+            response = await apiService.passengerLogin(loginModel);
+        }else if(role == 'Driver'){
+          response =  await apiService.driverLogin(loginModel);
+        }
+
+
+      
+
+        if (response.hasException) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(response.exception.toString())),
+          );
+        } else {
+          print("Login successful");
+          print(response.data);
+          
         dynamic responseData = response.data; // Assuming response.data is already a decoded JSON object
         Map<String, dynamic> passengerData = responseData['passengerLogin']['passenger'];
         appIsDriver = false;
