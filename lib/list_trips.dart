@@ -76,7 +76,7 @@ class _ListTripsState extends State<ListTrips> {
                     onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => MapPage(tripId: listTrips[index].id),)
+                          MaterialPageRoute(builder: (context) => MapPage(tripId: listTrips[index].id, startingPoint: listTrips[index].startingPoint,endingPoint: listTrips[index].endingPoint,),)
                 );
               },
                     child: Text('id: ${listTrips[index].id} \n inicio: ${listTrips[index].startingPoint} \n final: ${listTrips[index].endingPoint}' ),  
