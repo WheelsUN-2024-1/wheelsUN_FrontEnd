@@ -1,4 +1,4 @@
-allprojects {
+/* allprojects {
     repositories {
         google()
         mavenCentral()
@@ -21,4 +21,30 @@ buildscript {
     dependencies {
         classpath "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1"
     }
+} */
+
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // Make sure you have the correct version of the Android Gradle Plugin
+        classpath 'com.android.tools.build:gradle:8.3.2' 
+
+        // Ensure any other classpath dependencies are correctly included
+        classpath "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
 }

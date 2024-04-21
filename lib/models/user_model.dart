@@ -6,7 +6,7 @@ class PassengerModel {
   String userName;
   int userAge;
   String userEmail;
-  int userPhone;
+  String userPhone;
   String userAddress;
   String userCity;
   String userCountry;
@@ -35,7 +35,7 @@ class DriverModel extends PassengerModel {
     required String userName,
     required int userAge,
     required String userEmail,
-    required int userPhone,
+    required String userPhone,
     required String userAddress,
     required String userCity,
     required String userCountry,

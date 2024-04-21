@@ -5,9 +5,14 @@ import 'package:wheels_un/components/square_texfield.dart';
 import 'package:wheels_un/graphql/graphql_client.dart';
 import 'package:wheels_un/models/auth_model.dart';
 import 'package:wheels_un/services/api_service.dart';
+import 'package:wheels_un/globalVariables/user_data.dart';
+import 'package:wheels_un/pages/home_page.dart';
+
 
 class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+  final String role;
+  
+  LoginPage({super.key, required this.role});
 
   // text editing controllers
   final usernameController = TextEditingController();
@@ -33,14 +38,37 @@ class LoginPage extends StatelessWidget {
 
 
       final response =
-          await apiService.login(loginModel);
+          await apiService.passengerLogin(loginModel);
 
       if (response.hasException) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(response.exception.toString())),
         );
       } else {
-   
+        print("Login successful");
+        print(response.data);
+        
+        dynamic responseData = response.data; // Assuming response.data is already a decoded JSON object
+        Map<String, dynamic> passengerData = responseData['passengerLogin']['passenger'];
+        appIsDriver = false;
+        appId = passengerData['id'];
+        appIdNumber = passengerData['userIdNumber'];
+        appName = passengerData['userName'];
+        appAge = passengerData['userAge'];
+        appEmail = passengerData['userEmail'];
+        appPhone = passengerData['userPhone'];
+        appAddress = passengerData['userAddress'];
+        appCity = passengerData['userCity'];
+        appCountry = passengerData['userCountry'];
+        appPostalCode = passengerData['userPostalCode'];
+
+        //here should go to homePage, this ProfilePage router is just for testing
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+
+        
      /*    Navigator.pushReplacementNamed(
             context, '/home');  */
       }
@@ -79,7 +107,7 @@ class LoginPage extends StatelessWidget {
               // username textfield
               MyTextField(
                 controller: usernameController,
-                hintText: 'Username',
+                hintText: 'E-mail',
                 obscureText: false,
               ),
 
@@ -113,6 +141,7 @@ class LoginPage extends StatelessWidget {
               // sign in button
               MyButton(
                 onTap: signUserIn,
+                text: "Sign In",
               ),
 
               const SizedBox(height: 50),

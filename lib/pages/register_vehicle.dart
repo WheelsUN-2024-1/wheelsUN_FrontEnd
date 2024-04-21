@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wheels_un/components/my_button.dart';
 import 'package:wheels_un/components/my_form_textfield.dart';
+import 'package:wheels_un/globalVariables/user_data.dart';
+import 'package:wheels_un/pages/view_vehicles_page.dart';
 import 'package:wheels_un/services/api_service.dart';
 import 'package:wheels_un/graphql/graphql_client.dart';
 import 'package:wheels_un/models/vehicle_model.dart';
@@ -9,7 +11,6 @@ class RegisterVehiclePage extends StatelessWidget {
   RegisterVehiclePage({Key? key}) : super(key: key);
 
   final _formKey = GlobalKey<FormState>();
-  final ccOwnerController = TextEditingController();
   final plateController = TextEditingController();
   final brandController = TextEditingController();
   final modelController = TextEditingController();
@@ -24,7 +25,7 @@ class RegisterVehiclePage extends StatelessWidget {
         vehicleBrand: brandController.text,
         vehicleCylinder: cylinderController.text,
         vehicleModel: modelController.text,
-        vehicleOwnerId: int.parse(ccOwnerController.text),
+        vehicleOwnerId: appIdNumber,
         vehiclePlate: plateController.text,
         vehicleSeatingCapacity: int.parse(seatingCapacityController.text),
         vehicleYear: int.parse(yearController.text),
@@ -33,7 +34,7 @@ class RegisterVehiclePage extends StatelessWidget {
       final response = await apiService.createNewVehicle(vehicleModel);
       if (response.data == null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Failed to create vehicle. Please try again.'),
           ),
         );
@@ -41,6 +42,10 @@ class RegisterVehiclePage extends StatelessWidget {
       } else {
         // Vehicle created successfully, navigate to previous page or do other actions
         print('Register new vehicle successful');
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => ViewVehiclesPage()),
+        );
       }
       //print(response.data);
       
@@ -73,13 +78,6 @@ class RegisterVehiclePage extends StatelessWidget {
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
-                  ),
-                  const SizedBox(height: 25),
-                  MyFormTextField(
-                    controller: ccOwnerController,
-                    hintText: 'Cedula de Ciudadanía del Dueño',
-                    obscureText: false,
-                    validator: validateCedula,
                   ),
                   const SizedBox(height: 25),
                   MyFormTextField(
@@ -126,6 +124,7 @@ class RegisterVehiclePage extends StatelessWidget {
                   const SizedBox(height: 10),
                   MyButton(
                     onTap: () => registerVehicle(context),
+                    text: "Add Vehicle",
                   ),
                 ],
               ),
@@ -141,24 +140,6 @@ void main() {
   runApp(MaterialApp(
     home: RegisterVehiclePage(),
   ));
-}
-
-String? validateCedula(String? value) {
-  if (value == null || value.isEmpty) {
-    return 'Please enter your Cedula';
-  }
-
-  final numericRegex = RegExp(r'^[0-9]+$');
-  if (!numericRegex.hasMatch(value)) {
-    return 'Cedula must contain only numbers';
-  }
-
-  final cedula = int.tryParse(value);
-  if (cedula == null || cedula <= 0) {
-    return 'Cedula must be a positive number';
-  }
-
-  return null;
 }
 
 String? validatePlate(String? value) {
