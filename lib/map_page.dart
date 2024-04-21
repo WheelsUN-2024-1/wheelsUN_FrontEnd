@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:wheels_un/models/Trip.dart';
 import 'package:wheels_un/select_creditCard.dart';
 import 'package:wheels_un/services/location_service.dart';
 import 'package:wheels_un/services/network_utils.dart';
@@ -15,22 +16,45 @@ import 'package:geocoding/geocoding.dart';
 
 class MapPage extends StatefulWidget {
   final String tripId;
-  const MapPage({required this.tripId});
-
+  final String startingPoint;
+  final String endingPoint;
+  const MapPage({
+    Key? key,
+    required this.tripId, 
+    required this.startingPoint, 
+    required this.endingPoint
+  }) : super(key: key);
   @override
   State<MapPage> createState() => _MapPageState();
 }
 
 class _MapPageState extends State<MapPage> {
 
+  LatLng? starting_center;
+  LatLng? ending_center;
+  Marker? _kHomeMarker;
+
+  LatLng? waypoint;
+  String? startingPoint;
+  String? endingPoint;
+
+
+
+  @override
+  void initState() {
+    super.initState();
+    startingPoint = widget.startingPoint;
+    endingPoint = widget.endingPoint;
+    
+  }
+
   late GoogleMapController mapController;
 
-  static final LatLng university_center = const LatLng(4.6355555555556, -74.082777777778);
-  static final LatLng waypoint = const LatLng(4.75, -74.082777777778);
+  
 
-  List<String> listPredictions = [];
-
+  List<Prediction> listPredictions = [];
   String? selectedPrediction;
+  String? selectedPlaceId;
 
   final TextEditingController _controller = TextEditingController();
 
@@ -38,28 +62,33 @@ class _MapPageState extends State<MapPage> {
     mapController = controller;
   }
 
-  void getCoordinates(String? address) async {
-  if(address == null) return;
-  try {
-    List<Location> locations = await locationFromAddress(address);
-    print("this are my locations");
-    print(locations);
-    Location location = locations.first;
-    
-    print('Latitude: ${location.latitude}, Longitude: ${location.longitude}');
-  } catch (e) {
-    print('direccion');
-    print(address);
-    print('Error: ${e.toString()}');
-  }
+  Future<LatLng> getCoordinates(String? address) async {
+  final String ap_url = AG_URL+'/trip';
+    String graphQLQuery = 
+    'query{ getCoordinates(placeId: "$address"){lat lng}}';
+    try { 
+      print(graphQLQuery);
+      var url = Uri.parse(ap_url);
+      var response = await http.post(url,
+            headers: {"Content-type": "application/json"},
+            body: json.encode({'query': graphQLQuery}));
+      final data = jsonDecode(response.body);
+      print("datos");
+      print(data["data"]["getCoordinates"]["lat"]);
+      return  LatLng(data["data"]["getCoordinates"]["lat"], data["data"]["getCoordinates"]["lng"]);
+    } catch (e){
+
+        print(e);
+        throw Exception("Fallo la conexion");
+    } 
 }
 
-
+  
   void placeAutocomplete(String query) async {
     listPredictions = [];
     final String ap_url = AG_URL+'/trip';
     String graphQLQuery = 
-    'query {autoComplete(query: "$query"){description}}';
+    'query {autoComplete(query: "$query"){description placeId}}';
     try { 
       print(ap_url);
       print(graphQLQuery);
@@ -72,7 +101,7 @@ class _MapPageState extends State<MapPage> {
         setState(() {  // This will notify Flutter to redraw the widget
           listPredictions.clear();  // Clearing the old predictions
           for (var item in data["data"]["autoComplete"]) {
-            listPredictions.add(item["description"]);
+            listPredictions.add(Prediction(item["description"], item["placeId"]));
           } 
     });
 
@@ -83,21 +112,6 @@ class _MapPageState extends State<MapPage> {
         throw Exception("Fallo la conexion");
     } 
   }
-
-
-  static final Marker _kUniversityMarker = Marker(
-    markerId: MarkerId('University'),
-    infoWindow: InfoWindow(title:'Universidad Nacional'),
-    icon: BitmapDescriptor.defaultMarker,
-    position: university_center
-  );
-
-  static final Marker _kHomeMarker = Marker(
-    markerId: MarkerId('Home'),
-    infoWindow: InfoWindow(title:'Punto de recogida'),
-    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-    position: waypoint
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +127,8 @@ class _MapPageState extends State<MapPage> {
         
         Column(
           children: [
-            Text("Destino: Universidad Nacional de Colombia"),
+            Text("Origen: $startingPoint"),
+            Text("Destino: $endingPoint"),
             Row(children: [
               Expanded(child: TextFormField(
                 controller: _controller,
@@ -143,15 +158,25 @@ class _MapPageState extends State<MapPage> {
                 itemCount: listPredictions.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    onTap: () {
+                    onTap: () async {
+                      selectedPrediction = listPredictions[index].description;
+                      selectedPlaceId = listPredictions[index].placeId;
+                      _controller.text = selectedPrediction!;  // Set the text of the TextFormField to the selected prediction.
+                      listPredictions = [];  // Clear the list of predictions.
+                      waypoint =await getCoordinates(selectedPlaceId);
                       setState(() {
-                        selectedPrediction = listPredictions[index];
-                        _controller.text = selectedPrediction!;  // Set the text of the TextFormField to the selected prediction.
-                        listPredictions = [];  // Clear the list of predictions.
-                        getCoordinates(selectedPrediction);
+                        
+                        
+                        print(waypoint);
+                        _kHomeMarker = Marker(
+                            markerId: MarkerId('Home'),
+                            infoWindow: InfoWindow(title:'Punto de recogida'),
+                            icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+                            position: waypoint!
+                          );
                       });
                     },
-                    title: Text(listPredictions[index]),  
+                    title: Text(listPredictions[index].description),  
                 );
                 }),
             ),
@@ -168,10 +193,10 @@ class _MapPageState extends State<MapPage> {
             ), 
             Expanded(
               child: GoogleMap(
-                markers: {_kUniversityMarker, _kHomeMarker},
+                markers: _kHomeMarker != null ? {_kHomeMarker!} : {},
                 onMapCreated: _onMapCreated,
                 initialCameraPosition: CameraPosition(
-                  target: university_center,
+                  target: LatLng(4.60971, -74.08175),
                   zoom: 12.0,
                   ),
                   ),

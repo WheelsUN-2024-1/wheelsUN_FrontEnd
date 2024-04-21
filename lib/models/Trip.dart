@@ -11,3 +11,14 @@ class Trip {
       this.endingPoint = endingPoint;
     }
 }
+
+
+class Prediction {
+  late String description;
+  late String placeId;
+
+  Prediction(String description, String placeId){
+    this.description = description;
+    this.placeId = placeId;
+  }
+}

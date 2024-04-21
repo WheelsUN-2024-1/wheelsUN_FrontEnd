@@ -27,18 +27,22 @@ class MyApp extends StatelessWidget {
         "creditCard": (context) => AddNewCardScreen()
       },
       debugShowCheckedModeBanner: false,
+
       home: RolePage(),
-      //home: HomePage(),
-      //home: MapPage(tripId: "660bf2818a65cc44a2871b54"),
+      //home: MapPage(),
+      // home: MapPage(),
       //home: AddNewCardScreen(),
       //home: LoginPage(),
       //home: SignUpPage(),
       //home: ViewVehiclesPage()
       //home: RegisterVehiclePage()
-      //home: ProfilePage(),
       // home: ListTrips()
       //home: SelectCreditCard()
       //home: ViewCreditCards()
+      //home: ListTrips()
+      // home: MapPage(tripId: "6602e638c65f8fbda668db92", startingPoint: "Sede Bogotá - Universidad Nacional de Colombia", endingPoint: "Centro Mayor Centro Comercial")
+      //home: ProfilePage(),
+      // home: ListTrips()
     );
   }
 }
