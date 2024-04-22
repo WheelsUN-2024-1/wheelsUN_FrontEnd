@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:wheels_un/components/my_button.dart';
 import 'package:wheels_un/components/my_textfield.dart';
 import 'package:wheels_un/components/square_texfield.dart';
@@ -9,10 +8,9 @@ import 'package:wheels_un/services/api_service.dart';
 import 'package:wheels_un/globalVariables/user_data.dart';
 import 'package:wheels_un/pages/home_page.dart';
 
-
 class LoginPage extends StatelessWidget {
   final String role;
-  
+
   LoginPage({super.key, required this.role});
 
   // text editing controllers
@@ -35,29 +33,27 @@ class LoginPage extends StatelessWidget {
         return;
       }
 
-        final loginModel = LoginModel(email: email, password: password);
-
-        
-    
-        if (role == 'Passenger') {
-            response = await apiService.passengerLogin(loginModel);
-        }else if(role == 'Driver'){
-          response =  await apiService.driverLogin(loginModel);
-        }
-
-
+      final loginModel = LoginModel(email: email, password: password);
+      var response;
       
+      if (role == 'Passenger') {
+        response = await apiService.passengerLogin(loginModel);
+      } else if (role == 'Driver') {
+        response = await apiService.driverLogin(loginModel);
+      }
 
-        if (response.hasException) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(response.exception.toString())),
-          );
-        } else {
-          print("Login successful");
-          print(response.data);
-          
-        dynamic responseData = response.data; // Assuming response.data is already a decoded JSON object
-        Map<String, dynamic> passengerData = responseData['passengerLogin']['passenger'];
+      if (response.hasException) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(response.exception.toString())),
+        );
+      } else {
+        print("Login successful");
+        print(response.data);
+
+        dynamic responseData = response
+            .data; // Assuming response.data is already a decoded JSON object
+        Map<String, dynamic> passengerData =
+            responseData['passengerLogin']['passenger'];
         appIsDriver = false;
         appId = passengerData['id'];
         appIdNumber = passengerData['userIdNumber'];
@@ -76,8 +72,7 @@ class LoginPage extends StatelessWidget {
           MaterialPageRoute(builder: (context) => HomePage()),
         );
 
-        
-     /*    Navigator.pushReplacementNamed(
+        /*    Navigator.pushReplacementNamed(
             context, '/home');  */
       }
     }
