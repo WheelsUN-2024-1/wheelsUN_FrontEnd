@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:wheels_un/components/my_button.dart';
 import 'package:wheels_un/components/my_textfield.dart';
 import 'package:wheels_un/components/square_texfield.dart';
@@ -9,10 +8,9 @@ import 'package:wheels_un/services/api_service.dart';
 import 'package:wheels_un/globalVariables/user_data.dart';
 import 'package:wheels_un/pages/home_page.dart';
 
-
 class LoginPage extends StatelessWidget {
   final String role;
-  
+
   LoginPage({super.key, required this.role});
 
   // text editing controllers
@@ -93,8 +91,7 @@ class LoginPage extends StatelessWidget {
           MaterialPageRoute(builder: (context) => HomePage()),
         );
 
-        
-     /*    Navigator.pushReplacementNamed(
+        /*    Navigator.pushReplacementNamed(
             context, '/home');  */
       }
     }
