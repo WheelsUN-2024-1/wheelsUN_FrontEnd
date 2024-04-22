@@ -14,8 +14,8 @@ class ViewVehiclesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //#######this is for debug############
-    appIdNumber = 666;
-    appIsDriver = true;
+    /* appIdNumber = 666;
+    appIsDriver = true; */
     //####################################
 
     return FutureBuilder<void>(
