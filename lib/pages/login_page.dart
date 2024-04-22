@@ -22,7 +22,6 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final apiService = ApiService(getGraphQLClient());
-
     void signUserIn() async {
       final email = usernameController.text;
       final password = passwordController.text;
@@ -37,38 +36,56 @@ class LoginPage extends StatelessWidget {
 
         final loginModel = LoginModel(email: email, password: password);
 
-        
-    
-        if (role == 'Passenger') {
-            response = await apiService.passengerLogin(loginModel);
-        }else if(role == 'Driver'){
+        var response;
+        //print(role);
+        if (role == 'passenger') {
+          response = await apiService.passengerLogin(loginModel);
+        }else if(role == 'driver'){
           response =  await apiService.driverLogin(loginModel);
         }
 
-
-      
+        //print("LLEGA ACA");
+        //print(response);
 
         if (response.hasException) {
+          print("login error");
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(response.exception.toString())),
           );
         } else {
           print("Login successful");
           print(response.data);
-          
-        dynamic responseData = response.data; // Assuming response.data is already a decoded JSON object
-        Map<String, dynamic> passengerData = responseData['passengerLogin']['passenger'];
-        appIsDriver = false;
-        appId = passengerData['id'];
-        appIdNumber = passengerData['userIdNumber'];
-        appName = passengerData['userName'];
-        appAge = passengerData['userAge'];
-        appEmail = passengerData['userEmail'];
-        appPhone = passengerData['userPhone'];
-        appAddress = passengerData['userAddress'];
-        appCity = passengerData['userCity'];
-        appCountry = passengerData['userCountry'];
-        appPostalCode = passengerData['userPostalCode'];
+          if (role == 'passenger') {
+            dynamic responseData = response.data; // Assuming response.data is already a decoded JSON object
+            Map<String, dynamic> passengerData = responseData['passengerLogin']['passenger'];
+            appIsDriver = false;
+            appId = passengerData['id'];
+            appIdNumber = passengerData['userIdNumber'];
+            appName = passengerData['userName'];
+            appAge = passengerData['userAge'];
+            appEmail = passengerData['userEmail'];
+            appPhone = passengerData['userPhone'];
+            appAddress = passengerData['userAddress'];
+            appCity = passengerData['userCity'];
+            appCountry = passengerData['userCountry'];
+            appPostalCode = passengerData['userPostalCode'];
+          }else if(role == 'driver'){
+            dynamic responseData = response.data; // Assuming response.data is already a decoded JSON object
+            Map<String, dynamic> driverData = responseData['driverLogin']['driver'];
+            appIsDriver = true;
+            appId = driverData['id'];
+            appIdNumber = driverData['userIdNumber'];
+            appName = driverData['userName'];
+            appAge = driverData['userAge'];
+            appEmail = driverData['userEmail'];
+            appPhone = driverData['userPhone'];
+            appAddress = driverData['userAddress'];
+            appCity = driverData['userCity'];
+            appCountry = driverData['userCountry'];
+            appPostalCode = driverData['userPostalCode'];
+            appLicenseExpirationDate = driverData['userLicenseExpirationDate'];
+          }
+        
 
         //here should go to homePage, this ProfilePage router is just for testing
         Navigator.pushReplacement(

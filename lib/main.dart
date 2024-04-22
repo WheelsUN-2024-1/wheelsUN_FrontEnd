@@ -29,20 +29,16 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
       home: RolePage(),
-      //home: MapPage(),
-      // home: MapPage(),
       //home: AddNewCardScreen(),
       //home: LoginPage(),
       //home: SignUpPage(),
       //home: ViewVehiclesPage()
       //home: RegisterVehiclePage()
-      // home: ListTrips()
       //home: SelectCreditCard()
       //home: ViewCreditCards()
       //home: ListTrips()
-      // home: MapPage(tripId: "6602e638c65f8fbda668db92", startingPoint: "Sede Bogotá - Universidad Nacional de Colombia", endingPoint: "Centro Mayor Centro Comercial")
+      //home: MapPage(tripId: "6602e638c65f8fbda668db92", startingPoint: "Sede Bogotá - Universidad Nacional de Colombia", endingPoint: "Centro Mayor Centro Comercial")
       //home: ProfilePage(),
-      // home: ListTrips()
     );
   }
 }
