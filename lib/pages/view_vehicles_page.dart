@@ -38,10 +38,13 @@ class ViewVehiclesPage extends StatelessWidget {
   Future<void> getVehicles(BuildContext context) async {
     final apiService = ApiService(getGraphQLClient());
     final response = await apiService.vehicleById(appIdNumber);
+    print("LLega aqui?");
     if (response.hasException) {
-      throw Exception(response.exception.toString());
+      print("No vehicle?");
+      //throw Exception(response.exception.toString());
     } else {
       print("Get Vehicles successful");
+      print(response);
       List<dynamic> responseData = response.data?['vehicleById'];
       vehicles = responseData.map((vehicleData) {
         return VehicleModel(
@@ -61,6 +64,8 @@ class ViewVehiclesPage extends StatelessWidget {
   Widget buildViewWithVehicles(BuildContext context) {
     //print("my vehicles:");
     //print(vehicles.length);
+
+    bool isEmpty = vehicles.isEmpty;
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
@@ -83,7 +88,7 @@ class ViewVehiclesPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: ListView.builder(
+              child: isEmpty ? Text("NO VEHICLES"): ListView.builder(
                 itemCount: vehicles.length,
                 itemBuilder: (context, index) {
                   return Card(
