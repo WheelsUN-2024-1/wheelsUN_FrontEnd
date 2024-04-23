@@ -275,7 +275,7 @@ class _MapPageState extends State<MapPage> {
                   //router to createTrip page
                   Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (context) => CreateTripPage(startingPoint: "Sede Bogotá - Universidad Nacional de Colombia", endingPoint: _controller.text)),
+                              MaterialPageRoute(builder: (context) => switchOrigin ? CreateTripPage(startingPoint: "Sede Bogotá - Universidad Nacional de Colombia", endingPoint: _controller.text) : CreateTripPage(startingPoint: _controller.text, endingPoint: "Sede Bogotá - Universidad Nacional de Colombia")),
                             );
                 },
               ),

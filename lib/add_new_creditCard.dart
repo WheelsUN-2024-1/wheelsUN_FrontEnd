@@ -4,6 +4,7 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:http/http.dart' as http;
 import 'package:wheels_un/constants.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:wheels_un/globalVariables/user_data.dart';
 import 'dart:math';
 
 import 'package:wheels_un/view_creditcards.dart';
@@ -187,7 +188,7 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
     var creditCardS = {
       'CreditCardId': idc,
       'Number': "${creditCard['Number']}",
-      'UserId': 492,
+      'UserId': appIdNumber,
       'Name': "${creditCard['Name']}",
       'SecurityCode': "${creditCard['SecurityCode']}",
       'ExpirationDate': "${creditCard['ExpirationDate']}",
@@ -196,7 +197,7 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
 
     print(creditCardS['Name']);
     print(creditCardS['CreditCardId']);
-    int idcons = 492;
+    int idcons = appIdNumber;
 
     String graphQLQuery =
         ' mutation { createCreditCard(id: $idcons, creditcard: { CreditCardId: $idc, UserId: $idcons, Number: "${creditCardS['Number']}", Name: "${creditCardS['Name']}", SecurityCode: "${creditCardS['SecurityCode']}", ExpirationDate: "${creditCardS['ExpirationDate']}", Brand: "${creditCardS['Brand']}" }) { creditCardId userId number name securityCode expirationDate } }';
