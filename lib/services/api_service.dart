@@ -106,6 +106,40 @@ class ApiService {
       );
     }
   
+  Future<QueryResult> createTripService(String start, String end, String? vehicle, int? price) async {
+    print(start);
+    print(end);
+    print(vehicle);
+    print(price);
+
+    const String graphQLQuery = """
+    mutation Create(\$start: String!, \$end: String!, \$vehicle: String!,\$price: Int!) {
+      createTrip(trip: {startingPoint: \$start, endingPoint: \$end, price: \$price, vehicleId: \$vehicle, currentState: 1}) {
+        id
+        route
+        price
+        vehicleId
+        transactionIds
+        currentState
+        waypoints
+        startingPoint
+        endingPoint
+      }
+    }
+    """;
+
+      return await client.mutate(
+        MutationOptions(
+          document: gql(graphQLQuery),
+          variables: {
+            'start': start,
+            'end': end,
+            'vehicle': vehicle,
+            'price': price
+          },
+        ),
+      );
+    }
   
   // Método para cerrar sesión.
   Future<QueryResult> logout(String token) async {

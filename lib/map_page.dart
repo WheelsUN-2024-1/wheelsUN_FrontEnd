@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:wheels_un/globalVariables/user_data.dart';
 import 'package:wheels_un/models/Trip.dart';
+import 'package:wheels_un/pages/create_trip_page.dart';
 import 'package:wheels_un/select_creditCard.dart';
 import 'package:wheels_un/services/location_service.dart';
 import 'package:wheels_un/services/network_utils.dart';
@@ -111,6 +113,8 @@ class _MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
+    //debug
+    appIsDriver = true;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -263,6 +267,19 @@ class _MapPageState extends State<MapPage> {
                 );
               },
             ),
+            if(appIsDriver)...[
+              const SizedBox(width: 50),
+              TextButton(
+                child: Text('Crear Viaje'),
+                onPressed: (){
+                  //router to createTrip page
+                  Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => CreateTripPage(startingPoint: "Sede Bogotá - Universidad Nacional de Colombia", endingPoint: _controller.text)),
+                            );
+                },
+              ),
+            ],
             Expanded(
               child: GoogleMap(
                 markers: _kHomeMarker != null ? {_kHomeMarker!} : {},

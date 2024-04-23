@@ -11,7 +11,7 @@ import 'package:wheels_un/pages/profile_page.dart';
 import 'package:wheels_un/select_creditCard.dart';
 import 'package:wheels_un/view_creditcards.dart';
 import 'package:wheels_un/pages/view_vehicles_page.dart';
-
+import 'package:wheels_un/pages/create_trip_page.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
       //home: ListTrips()
       home: MapPage(tripId: "6602e638c65f8fbda668db92", startingPoint: "Sede Bogotá - Universidad Nacional de Colombia", endingPoint: "Centro Mayor Centro Comercial")
       //home: ProfilePage(),
+      //home: CreateTripPage(startingPoint: "La nacho", endingPoint: "La caasita de tu mami >:D",),
     );
   }
 }
