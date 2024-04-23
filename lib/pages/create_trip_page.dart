@@ -27,6 +27,9 @@ class CreateTripPage extends StatelessWidget {
     
     if (_formKey.currentState!.validate()) {
       //aqui llama createTripService
+      final apiService = ApiService(getGraphQLClientTrip());
+      final response = await apiService.createTripService(start, end, vehicle, price);
+      //print(response);
     }
   }
 

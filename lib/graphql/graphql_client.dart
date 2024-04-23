@@ -11,3 +11,14 @@ GraphQLClient getGraphQLClient() {
     cache: GraphQLCache(store: InMemoryStore()),
   );
 }
+
+GraphQLClient getGraphQLClientTrip() {
+  final HttpLink httpLink = HttpLink(
+    AG_URL + '/trip', 
+  );
+
+  return GraphQLClient(
+    link: httpLink,
+    cache: GraphQLCache(store: InMemoryStore()),
+  );
+}
