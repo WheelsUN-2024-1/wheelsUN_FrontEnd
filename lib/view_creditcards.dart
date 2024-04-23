@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:wheels_un/add_new_creditCard.dart';
 import 'dart:convert';
 
 import 'package:wheels_un/constants.dart';
+import 'package:wheels_un/globalVariables/user_data.dart';
+import 'package:wheels_un/pages/home_page.dart';
+import 'package:wheels_un/pages/pages.dart';
 
 class ViewCreditCards extends StatefulWidget {
   @override
@@ -13,7 +17,7 @@ class _ViewCreditCardsState extends State<ViewCreditCards> {
   final String creditCardUrl = AG_URL + "/transaction";
   List<String> creditCards = [];
   int? _selectedIndex;
-  String graphQLQuery = ' query { creditCardByUser(id: 492 ) {creditCardId number brand} }';
+  String graphQLQuery = ' query { creditCardByUser(id: $appIdNumber ) {creditCardId number brand} }';
 
   @override
   void initState() {
@@ -55,6 +59,16 @@ class _ViewCreditCardsState extends State<ViewCreditCards> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Tarjetas de crédito'),
+        leading: IconButton( // Button in the left side with an arrow icon
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            //router to home page
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => ProfilePage()),
+            );
+          },
+        ),
       ),
       body: ListView.builder(
         itemCount: creditCards.length,
@@ -70,6 +84,19 @@ class _ViewCreditCardsState extends State<ViewCreditCards> {
             selectedTileColor: Colors.blue.withOpacity(0.5),
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          //add vehicle page
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => AddNewCardScreen()),
+          );
+        },
+        label: Text('Add Credit Card'),
+        foregroundColor: Colors.black,
+        icon: Icon(Icons.add),
+        backgroundColor: const Color(0xFF68BB92),
       ),
     );
   }

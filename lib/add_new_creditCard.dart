@@ -6,6 +6,8 @@ import 'package:wheels_un/constants.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:math';
 
+import 'package:wheels_un/view_creditcards.dart';
+
 const double defaultPadding = 16.0;
 
 class AddNewCardScreen extends StatefulWidget {
@@ -107,10 +109,32 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
                             'Name': cardHolderName,
                             'SecurityCode': cvvCode,
                             'ExpirationDate': expiryDate,
-                            'Brand': cardHolderName, // Assuming Brand is available
+                            'Brand':
+                                cardHolderName, // Assuming Brand is available
                           };
                           PostCard(creditCard);
                           print('Valid!');
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Success'),
+                                  content: Text(
+                                      'La tarjeta ha sido creada exitosamente.'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ViewCreditCards()));
+                                      },
+                                      child: Text('OK'),
+                                    ),
+                                  ],
+                                );
+                              });
                         } else {
                           print('Invalid!');
                           // Mostrar una alerta
@@ -119,7 +143,8 @@ class _AddNewCardScreenState extends State<AddNewCardScreen> {
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 title: Text('Error'),
-                                content: Text('Por favor, completa todos los campos.'),
+                                content: Text(
+                                    'Por favor, completa todos los campos.'),
                                 actions: <Widget>[
                                   TextButton(
                                     onPressed: () {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:wheels_un/globalVariables/user_data.dart';
 import 'package:wheels_un/list_trips.dart';
+import 'package:wheels_un/map_page.dart';
 import 'package:wheels_un/pages/landing_page.dart';
 import 'package:wheels_un/pages/pages.dart';
 import 'package:wheels_un/pages/profile_page.dart';
@@ -11,15 +13,15 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
   int _selectedIndex = 0;
 
   // Lista de widgets actualizada
-  static final List<Widget> _widgetOptions = <Widget>[
-
+  static List<Widget> _widgetOptions = <Widget>[
     LandingPage(),
     ListTrips(),
     ProfilePage(),
@@ -32,10 +34,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       duration: const Duration(seconds: 3),
       vsync: this,
     );
-    _animation = Tween<double>(begin: 0.8, end: 1.2).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut
-    ));
+    _animation = Tween<double>(begin: 0.8, end: 1.2)
+        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
     _controller.forward();
   }
 
@@ -53,6 +53,14 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
+    if (appIsDriver) {
+      _widgetOptions = <Widget>[
+        LandingPage(),
+        MapPage(tripId: "", startingPoint: "", endingPoint: ""),
+        ProfilePage(),
+      ];
+      ;
+    }
     return Scaffold(
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(

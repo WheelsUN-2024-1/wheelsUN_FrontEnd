@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:wheels_un/constants.dart';
 import 'package:wheels_un/globalVariables/user_data.dart';
 import 'package:http/http.dart' as http;
+import 'package:wheels_un/pages/home_page.dart';
 
 class CreditCard {
   final String name;
@@ -27,10 +28,10 @@ class _SelectCreditCardState extends State<SelectCreditCard> {
   final String joinUrl = AG_URL + "/trip";
   List<CreditCard> creditCards = [];
   int? _selectedIndex;
-  int userId = 492;
-  String tripId = "660bf2818a65cc44a2871b54";
-  String passengerEmail = "ana@gmail.com";
-  String stopPoint = "Centro Comercial Gran Estación";
+  //int userId = 492;
+  String tripId = ""; //= "660bf2818a65cc44a2871b54";
+  //String passengerEmail = "ana@gmail.com";
+  String stopPoint = ""; //"Centro Comercial Gran Estación";
 
   @override
   void initState() {
@@ -41,7 +42,8 @@ class _SelectCreditCardState extends State<SelectCreditCard> {
   }
 
   Future<void> fetchCreditCards(userId) async {
-    String graphQLQueryFetch = 'query { creditCardByUser(id: $userId ) {creditCardId number brand} }';
+    String graphQLQueryFetch =
+        'query { creditCardByUser(id: $userId ) {creditCardId number brand} }';
     try {
       var url = Uri.parse(creditCardUrl);
       var response = await http.post(
@@ -54,13 +56,13 @@ class _SelectCreditCardState extends State<SelectCreditCard> {
         if (data['data'] != null && data['data']['creditCardByUser'] != null) {
           List<dynamic> cards = data['data']['creditCardByUser'];
           setState(() {
-            creditCards = cards.map((card) =>
-                CreditCard(
-                  name: card['brand'],
-                  number: card['number'].toString(),
-                  id: card['creditCardId'].toString(),
-                )
-            ).toList();
+            creditCards = cards
+                .map((card) => CreditCard(
+                      name: card['brand'],
+                      number: card['number'].toString(),
+                      id: card['creditCardId'].toString(),
+                    ))
+                .toList();
           });
           print(creditCards);
         } else {
@@ -77,8 +79,10 @@ class _SelectCreditCardState extends State<SelectCreditCard> {
     }
   }
 
-  Future<void> join_trip(tripId, passengerEmail, creditCardId, stopPoint) async {
-    String graphQLQuery = 'mutation { joinTrip( tripId: "$tripId", creditCardId: $creditCardId,	passengerEmail:"$passengerEmail", stopPoint:"$stopPoint") {waypoints}}';
+  Future<void> join_trip(
+      tripId, passengerEmail, creditCardId, stopPoint) async {
+    String graphQLQuery =
+        'mutation { joinTrip( tripId: "$tripId", creditCardId: $creditCardId,	passengerEmail:"$passengerEmail", stopPoint:"$stopPoint") {waypoints}}';
     try {
       var url = Uri.parse(joinUrl);
       var response = await http.post(
@@ -120,7 +124,8 @@ class _SelectCreditCardState extends State<SelectCreditCard> {
         itemCount: creditCards.length,
         itemBuilder: (context, index) {
           return CheckboxListTile(
-            title: Text('${creditCards[index].name} - ${creditCards[index].number}'),
+            title: Text(
+                '${creditCards[index].name} - ${creditCards[index].number}'),
             value: _selectedIndex == index,
             onChanged: (value) {
               setState(() {
@@ -137,14 +142,33 @@ class _SelectCreditCardState extends State<SelectCreditCard> {
             onPressed: () {
               String? id = getNameOfSelectedCreditCard();
               if (id != null) {
-                join_trip(tripId, passengerEmail, id, stopPoint);
+                join_trip(tripId, appEmail, id, stopPoint);
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Success'),
+                        content: Text('Te uniste exitosamente al viaje.'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => HomePage()));
+                            },
+                            child: Text('OK'),
+                          ),
+                        ],
+                      );
+                    });
               } else {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
                       title: Text('Error'),
-                      content: Text('Por favor, selecciona una tarjeta de crédito.'),
+                      content:
+                          Text('Por favor, selecciona una tarjeta de crédito.'),
                       actions: <Widget>[
                         TextButton(
                           onPressed: () {

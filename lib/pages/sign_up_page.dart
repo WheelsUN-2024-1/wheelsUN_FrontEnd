@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wheels_un/components/my_button.dart';
 import 'package:wheels_un/components/my_form_textfield.dart';
+import 'package:wheels_un/pages/login_page.dart';
+import 'package:wheels_un/pages/role_page.dart';
 import 'package:wheels_un/services/api_service.dart';
 import 'package:wheels_un/graphql/graphql_client.dart';
 import 'package:wheels_un/models/user_model.dart';
@@ -53,6 +55,10 @@ class _SignUpPageState extends State<SignUpPage> {
         } else {
           // driver created (should show message and redirect to the login page)
           print('Register new driver successful');
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => RolePage()),
+          );
         }
       }
     } else {
@@ -73,6 +79,10 @@ class _SignUpPageState extends State<SignUpPage> {
           _showErrorSnackBar(context, 'Register new passenger failed'); // Show error message
         } else {
           // passenger created (should show message and redirect to the login page)
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => RolePage()),
+          );
           print('Register new passenger successful');
         }
       }

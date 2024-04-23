@@ -4,6 +4,7 @@ import 'package:wheels_un/components/my_textfield.dart';
 import 'package:wheels_un/components/square_texfield.dart';
 import 'package:wheels_un/graphql/graphql_client.dart';
 import 'package:wheels_un/models/auth_model.dart';
+import 'package:wheels_un/pages/sign_up_page.dart';
 import 'package:wheels_un/services/api_service.dart';
 import 'package:wheels_un/globalVariables/user_data.dart';
 import 'package:wheels_un/pages/home_page.dart';
@@ -218,16 +219,24 @@ class LoginPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'Not a member?',
-                    style: TextStyle(color: Colors.grey[700]),
-                  ),
-                  const SizedBox(width: 4),
-                  const Text(
-                    'Register now',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
+                  TextButton(
+                    onPressed: () {
+                      // Aquí puedes añadir la lógica para la acción del botón
+                      Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => SignUpPage()),
+                            );
+                    },
+                    style: TextButton.styleFrom(
+                      foregroundColor:
+                          Colors.blue, // Establece el color del texto del botón
+                    ),
+                    child: const Text(
+                      'Not a member? Register now',
+                      style: TextStyle(
+                        fontWeight:
+                            FontWeight.bold, // Hace que el texto sea en negrita
+                      ),
                     ),
                   ),
                 ],
