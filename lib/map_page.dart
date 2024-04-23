@@ -114,7 +114,7 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     //debug
-    appIsDriver = true;
+    //appIsDriver = true;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(

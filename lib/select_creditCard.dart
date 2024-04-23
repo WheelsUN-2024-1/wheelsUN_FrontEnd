@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:wheels_un/constants.dart';
+import 'package:wheels_un/globalVariables/user_data.dart';
 import 'package:http/http.dart' as http;
 
 class CreditCard {
@@ -36,7 +37,7 @@ class _SelectCreditCardState extends State<SelectCreditCard> {
     super.initState();
     stopPoint = widget.selectedPrediction;
     tripId = widget.tripId;
-    fetchCreditCards(userId);
+    fetchCreditCards(appIdNumber);
   }
 
   Future<void> fetchCreditCards(userId) async {
@@ -61,6 +62,7 @@ class _SelectCreditCardState extends State<SelectCreditCard> {
                 )
             ).toList();
           });
+          print(creditCards);
         } else {
           print('No credit card data available.');
         }
