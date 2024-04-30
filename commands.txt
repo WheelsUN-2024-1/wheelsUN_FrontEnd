@@ -4,6 +4,7 @@ flutter --version
 
 flutter pub get
 flutter upgrade
+flutter pub add flutter_secure_storage
 
 flutter run -d chrome --web-port=9200
 
