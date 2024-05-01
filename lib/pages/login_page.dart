@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wheels_un/components/my_button.dart';
 import 'package:wheels_un/components/my_textfield.dart';
 import 'package:wheels_un/components/square_texfield.dart';
@@ -8,7 +9,7 @@ import 'package:wheels_un/pages/sign_up_page.dart';
 import 'package:wheels_un/services/api_service.dart';
 import 'package:wheels_un/globalVariables/user_data.dart';
 import 'package:wheels_un/pages/home_page.dart';
-import 'package:wheels_un/services/token_storage.dart';
+import 'package:wheels_un/services/auth_provier.dart';
 
 class LoginPage extends StatelessWidget {
   final String role;
@@ -22,7 +23,6 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final apiService = ApiService(getGraphQLClient());
-    final TokenStorage _tokenStorage = TokenStorage();
 
     void signUserIn() async {
       final email = usernameController.text;
@@ -45,7 +45,6 @@ class LoginPage extends StatelessWidget {
       } else if (role == 'driver') {
         response = await apiService.driverLogin(loginModel);
       }
-
 
       if (response.hasException) {
         print("login error");
@@ -74,9 +73,11 @@ class LoginPage extends StatelessWidget {
           appPostalCode = passengerData['userPostalCode'];
 
           String token = response.data['passengerLogin']['token'];
-          await _tokenStorage.storeToken(token);
+          final authProvider =
+              Provider.of<AuthProvider>(context, listen: false);
+          authProvider.login(token);
 
-         print("TOKEN USER: $token"); 
+          print("TOKEN USER: $token");
         } else if (role == 'driver') {
           dynamic responseData = response
               .data; // Assuming response.data is already a decoded JSON object
@@ -96,18 +97,22 @@ class LoginPage extends StatelessWidget {
           appLicenseExpirationDate = driverData['userLicenseExpirationDate'];
 
           String token = response.data['driverLogin']['token'];
-          await _tokenStorage.storeToken(token);
-          print("TOKEN DRIVER: $token"); 
+
+          final authProvider =
+              Provider.of<AuthProvider>(context, listen: false);
+          authProvider.login(token);
+
+          print("TOKEN DRIVER: $token");
         }
 
-        //here should go to homePage, this ProfilePage router is just for testing
-        Navigator.pushReplacement(
+        
+        
+     /*    Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => HomePage()),
-        );
+        ); */
 
-        /*    Navigator.pushReplacementNamed(
-            context, '/home');  */
+     
       }
     }
 
