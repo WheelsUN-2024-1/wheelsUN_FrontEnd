@@ -35,9 +35,9 @@ services:
       - /var/lib/ldap
       - /etc/ldap/slapd.d
       - /container/service/slapd/assets/certs/
-    ports:
-      - "389:389"
-      - "636:636"
+    expose:
+      - 389
+      - 636
     hostname: "arqsoft.unal.edu.co"
     networks:
       - full_backend_4_real_mynetwork
