@@ -6,8 +6,10 @@ services:
       context: .
       dockerfile: Dockerfile
     expose:
-      - 8080
+      - 8081
     restart: always
+    networks:
+      - mynetwork
 
   nginx:
     image: nginx:latest
@@ -18,7 +20,67 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf  # Mount the Nginx configuration file
       - ./nginx-selfsigned.crt:/etc/nginx/ssl/nginx-selfsigned.crt
       - ./nginx-selfsigned.key:/etc/nginx/ssl/nginx-selfsigned.key
-
     depends_on:
       - wheels_front  # Specify dependency on the Flutter app service
     restart: always
+    networks:
+      - mynetwork
+  wheelsunAuth:
+    image: jnerdq/image-wheelsun_auth_ms
+    ports:
+      - "8080:8080"
+    networks:
+      - mynetwork
+
+  wheelsun_user_ms:
+    image: jivegabe/image-wheelsun_user_ms
+    ports:
+      - "8000:8000"
+    networks:
+      - mynetwork
+
+  wheelsun_mq:
+    image: rabbitmq:3.13-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - mynetwork
+      
+  wheelsun_transaction_ms:
+    image: cquilaguy12/image-wheelsun_transaction_ms
+    ports:
+      - "3000:3000"
+    networks:
+      - mynetwork
+      
+  wheelsun_trip_ms:
+    image: ccortesra/wheels
+    ports:
+      - "3002:3002"
+    networks:
+      - mynetwork
+
+  wheelsun_ag:
+    image: jivegabe/image-wheelsun_ag
+    ports:
+      - "8100:8100"
+    networks:
+      - mynetwork
+    depends_on:
+      - wheelsunAuth
+      - wheelsun_user_ms
+      - wheelsun_transaction_ms
+      - wheelsun_trip_ms
+      - wheelsun_mq
+
+  ag_proxy:
+    image: cquilaguy12/image-wheelsun_proxyag
+    ports:
+      - "81:81"
+    networks:
+      - mynetwork
+    
+networks:
+  mynetwork:
+    driver: bridge
