@@ -9,7 +9,9 @@ class ApiService {
 
   ApiService(this.client);
 
+
   // Método para registrar un nuevo usuario (Driver o Passenger).
+  
 
   Future<QueryResult> register(RegisterModel registerModel) async {
     const String registerMutation = """

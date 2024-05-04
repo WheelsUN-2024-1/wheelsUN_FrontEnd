@@ -9,12 +9,14 @@ import 'package:wheels_un/pages/home_page.dart';
 import 'package:wheels_un/pages/pages.dart';
 
 class ViewCreditCards extends StatefulWidget {
+  const ViewCreditCards({super.key});
+
   @override
   _ViewCreditCardsState createState() => _ViewCreditCardsState();
 }
 
 class _ViewCreditCardsState extends State<ViewCreditCards> {
-  final String creditCardUrl = AG_URL + "/transaction";
+  final String creditCardUrl = "$AG_URL/transaction";
   List<String> creditCards = [];
   int? _selectedIndex;
   String graphQLQuery = ' query { creditCardByUser(id: $appIdNumber ) {creditCardId number brand} }';
@@ -58,9 +60,9 @@ class _ViewCreditCardsState extends State<ViewCreditCards> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tarjetas de crédito'),
+        title: const Text('Tarjetas de crédito'),
         leading: IconButton( // Button in the left side with an arrow icon
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             //router to home page
             Navigator.pushReplacement(
@@ -90,12 +92,12 @@ class _ViewCreditCardsState extends State<ViewCreditCards> {
           //add vehicle page
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => AddNewCardScreen()),
+            MaterialPageRoute(builder: (context) => const AddNewCardScreen()),
           );
         },
-        label: Text('Add Credit Card'),
+        label: const Text('Add Credit Card'),
         foregroundColor: Colors.black,
-        icon: Icon(Icons.add),
+        icon: const Icon(Icons.add),
         backgroundColor: const Color(0xFF68BB92),
       ),
     );

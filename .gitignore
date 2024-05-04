@@ -46,3 +46,6 @@ app.*.map.json
 pubspec.lock
 linux/flutter/generated_plugin_registrant.cc
 
+# SSL Certs
+nginx-selfsigned.crt
+nginx-selfsigned.key

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wheels_un/components/my_button.dart';
 import 'package:wheels_un/components/my_textfield.dart';
 import 'package:wheels_un/components/square_texfield.dart';
@@ -8,6 +9,7 @@ import 'package:wheels_un/pages/sign_up_page.dart';
 import 'package:wheels_un/services/api_service.dart';
 import 'package:wheels_un/globalVariables/user_data.dart';
 import 'package:wheels_un/pages/home_page.dart';
+import 'package:wheels_un/services/auth_provier.dart';
 
 class LoginPage extends StatelessWidget {
   final String role;
@@ -21,6 +23,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final apiService = ApiService(getGraphQLClient());
+
     void signUserIn() async {
       final email = usernameController.text;
       final password = passwordController.text;
@@ -33,67 +36,83 @@ class LoginPage extends StatelessWidget {
         return;
       }
 
-        final loginModel = LoginModel(email: email, password: password);
+      final loginModel = LoginModel(email: email, password: password);
 
-        var response;
-        //print(role);
+      var response;
+      //print(role);
+      if (role == 'passenger') {
+        response = await apiService.passengerLogin(loginModel);
+      } else if (role == 'driver') {
+        response = await apiService.driverLogin(loginModel);
+      }
+
+      if (response.hasException) {
+        print("login error");
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(response.exception.toString())),
+        );
+      } else {
+        print("Login successful");
+        print(response.data);
+
         if (role == 'passenger') {
-          response = await apiService.passengerLogin(loginModel);
-        }else if(role == 'driver'){
-          response =  await apiService.driverLogin(loginModel);
+          dynamic responseData = response
+              .data; // Assuming response.data is already a decoded JSON object
+          Map<String, dynamic> passengerData =
+              responseData['passengerLogin']['passenger'];
+          appIsDriver = false;
+          appId = passengerData['id'];
+          appIdNumber = passengerData['userIdNumber'];
+          appName = passengerData['userName'];
+          appAge = passengerData['userAge'];
+          appEmail = passengerData['userEmail'];
+          appPhone = passengerData['userPhone'];
+          appAddress = passengerData['userAddress'];
+          appCity = passengerData['userCity'];
+          appCountry = passengerData['userCountry'];
+          appPostalCode = passengerData['userPostalCode'];
+
+          String token = response.data['passengerLogin']['token'];
+          final authProvider =
+              Provider.of<AuthProvider>(context, listen: false);
+          authProvider.login(token);
+
+          print("TOKEN USER: $token");
+        } else if (role == 'driver') {
+          dynamic responseData = response
+              .data; // Assuming response.data is already a decoded JSON object
+          Map<String, dynamic> driverData =
+              responseData['driverLogin']['driver'];
+          appIsDriver = true;
+          appId = driverData['id'];
+          appIdNumber = driverData['userIdNumber'];
+          appName = driverData['userName'];
+          appAge = driverData['userAge'];
+          appEmail = driverData['userEmail'];
+          appPhone = driverData['userPhone'];
+          appAddress = driverData['userAddress'];
+          appCity = driverData['userCity'];
+          appCountry = driverData['userCountry'];
+          appPostalCode = driverData['userPostalCode'];
+          appLicenseExpirationDate = driverData['userLicenseExpirationDate'];
+
+          String token = response.data['driverLogin']['token'];
+
+          final authProvider =
+              Provider.of<AuthProvider>(context, listen: false);
+          authProvider.login(token);
+
+          print("TOKEN DRIVER: $token");
         }
 
-        //print("LLEGA ACA");
-        //print(response);
-
-        if (response.hasException) {
-          print("login error");
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(response.exception.toString())),
-          );
-        } else {
-          print("Login successful");
-          print(response.data);
-          if (role == 'passenger') {
-            dynamic responseData = response.data; // Assuming response.data is already a decoded JSON object
-            Map<String, dynamic> passengerData = responseData['passengerLogin']['passenger'];
-            appIsDriver = false;
-            appId = passengerData['id'];
-            appIdNumber = passengerData['userIdNumber'];
-            appName = passengerData['userName'];
-            appAge = passengerData['userAge'];
-            appEmail = passengerData['userEmail'];
-            appPhone = passengerData['userPhone'];
-            appAddress = passengerData['userAddress'];
-            appCity = passengerData['userCity'];
-            appCountry = passengerData['userCountry'];
-            appPostalCode = passengerData['userPostalCode'];
-          }else if(role == 'driver'){
-            dynamic responseData = response.data; // Assuming response.data is already a decoded JSON object
-            Map<String, dynamic> driverData = responseData['driverLogin']['driver'];
-            appIsDriver = true;
-            appId = driverData['id'];
-            appIdNumber = driverData['userIdNumber'];
-            appName = driverData['userName'];
-            appAge = driverData['userAge'];
-            appEmail = driverData['userEmail'];
-            appPhone = driverData['userPhone'];
-            appAddress = driverData['userAddress'];
-            appCity = driverData['userCity'];
-            appCountry = driverData['userCountry'];
-            appPostalCode = driverData['userPostalCode'];
-            appLicenseExpirationDate = driverData['userLicenseExpirationDate'];
-          }
         
-
-        //here should go to homePage, this ProfilePage router is just for testing
+        
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => HomePage()),
         );
 
-        /*    Navigator.pushReplacementNamed(
-            context, '/home');  */
+     
       }
     }
 
@@ -223,9 +242,9 @@ class LoginPage extends StatelessWidget {
                     onPressed: () {
                       // Aquí puedes añadir la lógica para la acción del botón
                       Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(builder: (context) => SignUpPage()),
-                            );
+                        context,
+                        MaterialPageRoute(builder: (context) => SignUpPage()),
+                      );
                     },
                     style: TextButton.styleFrom(
                       foregroundColor:
