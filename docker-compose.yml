@@ -25,6 +25,7 @@ services:
     restart: always
     networks:
       - mynetwork
+
   wheelsunAuth:
     image: jnerdq/image-wheelsun_auth_ms
     ports:
@@ -80,6 +81,8 @@ services:
       - "81:81"
     networks:
       - mynetwork
+    depends_on:
+      - wheelsun_ag
     
 networks:
   mynetwork:
