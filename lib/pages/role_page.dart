@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:wheels_un/components/my_button_role.dart';
-import 'package:wheels_un/pages/landing_page.dart';
+import 'package:wheels_un/pages/landing_page_role.dart';
 import 'package:wheels_un/pages/login_page.dart'; // Import your LandingPage
 
 class RolePage extends StatelessWidget {
-  RolePage({super.key});
+  const RolePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class RolePage extends StatelessWidget {
       body: Stack(
         alignment: Alignment.center,
         children: [
-          LandingPage(), // This is the full-screen background page
+          const LandingPageRole(), // This is the full-screen background page
           Positioned(
             bottom: 125, // Adjust the position according to your needs
             child: Row(
@@ -32,7 +32,7 @@ class RolePage extends StatelessWidget {
               children: [
                MyButtonRole(
                     text: 'Passenger', onTap: () => navigateToLogin('passenger')),
-                SizedBox(width: 25),
+                const SizedBox(width: 25),
                  MyButtonRole(
                     text: 'Driver', onTap: () => navigateToLogin('driver')),
               
