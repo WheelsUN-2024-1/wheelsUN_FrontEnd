@@ -27,7 +27,7 @@ class _ListTripsState extends State<ListTrips> {
   void fetchTrips() async {
     
     final String ap_url = AG_URL+'/trip';
-    String graphQLQuery =  dsd
+    String graphQLQuery =  
     'query{allTrips{id startingPoint endingPoint}}';
     try { 
       print(ap_url);
