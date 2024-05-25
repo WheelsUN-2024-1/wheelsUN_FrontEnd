@@ -19,7 +19,7 @@ services:
       - ./nginx-selfsigned.crt:/etc/nginx/ssl/nginx-selfsigned.crt
       - ./nginx-selfsigned.key:/etc/nginx/ssl/nginx-selfsigned.key
     depends_on:
-      - wheels_front  # Specify dependency on the Flutter app service
+      - wheelsFront  # Specify dependency on the Flutter app service
     restart: always
     networks:
       - mynetwork
@@ -63,26 +63,26 @@ services:
       - mynetwork
 
   wheelsunAg:
-    image: jivegabe/image-wheelsun_ag
+    image: jivegabe/image-wheelsun_ag-no_ldap
     expose:
       - 8100
     networks:
       - mynetwork
     depends_on:
       - wheelsunAuth
-      - wheelsun_user_ms
-      - wheelsun_transaction_ms
-      - wheelsun_trip_ms
-      - wheelsun_mq
+      - wheelsunUserms
+      - wheelsunTransactionms
+      - wheelsunTripms
+      - wheelsunMq
 
   agProxy:
-    image: cquilaguy12/image-wheelsun_proxyag
+    image: jnerdq/ag-web-proxy
     ports:
       - "81:81"
     networks:
       - mynetwork
     depends_on:
-      - wheelsun_ag
+      - wheelsunAg
     
 networks:
   mynetwork:

@@ -1,1 +1,1 @@
-const String AG_URL = "http://127.0.0.1:81";
+const String AG_URL = "http://agProxy:81";
