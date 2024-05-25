@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  wheelsFront:
+  wheelsfront:
     image: ccortesra/wheels_front:latest
     expose:
       - 8081
@@ -19,26 +19,26 @@ services:
       - ./nginx-selfsigned.crt:/etc/nginx/ssl/nginx-selfsigned.crt
       - ./nginx-selfsigned.key:/etc/nginx/ssl/nginx-selfsigned.key
     depends_on:
-      - wheelsFront  # Specify dependency on the Flutter app service
+      - wheelsfront  # Specify dependency on the Flutter app service
     restart: always
     networks:
       - mynetwork
 
-  wheelsunAuth:
+  wheelsunauth:
     image: jnerdq/image-wheelsun_auth_ms
     expose:
       - 8080
     networks:
       - mynetwork
 
-  wheelsunUserms:
+  wheelsunuserms:
     image: jivegabe/image-wheelsun_user_ms
     expose:
       - 8000
     networks:
       - mynetwork
 
-  wheelsunMq:
+  wheelsunmq:
     image: rabbitmq:3.13-management
     expose:
       - 5672
@@ -46,7 +46,7 @@ services:
     networks:
       - mynetwork
       
-  wheelsunTransactionms:
+  wheelsuntransactionms:
     image: cquilaguy12/image-wheelsun_transaction_ms
     expose:
       - 3000
@@ -54,7 +54,7 @@ services:
     networks:
       - mynetwork
       
-  wheelsunTripms:
+  wheelsuntripms:
     image: ccortesra/wheels
     expose:
       - 3002
@@ -62,20 +62,20 @@ services:
     networks:
       - mynetwork
 
-  wheelsunAg:
+  wheelsunag:
     image: jivegabe/image-wheelsun_ag-no_ldap
     expose:
       - 8100
     networks:
       - mynetwork
     depends_on:
-      - wheelsunAuth
-      - wheelsunUserms
-      - wheelsunTransactionms
-      - wheelsunTripms
-      - wheelsunMq
+      - wheelsunauth
+      - wheelsunuserms
+      - wheelsuntransactionms
+      - wheelsuntripms
+      - wheelsunmq
 
-  agProxy:
+  agproxy:
     image: jnerdq/ag-web-proxy
     ports:
       - "81:81"
