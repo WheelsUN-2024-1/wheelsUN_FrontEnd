@@ -82,7 +82,7 @@ services:
     networks:
       - mynetwork
     depends_on:
-      - wheelsunAg
+      - wheelsunag
     
 networks:
   mynetwork:
