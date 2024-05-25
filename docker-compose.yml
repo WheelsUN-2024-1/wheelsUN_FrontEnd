@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  wheels_front:
+  wheelsFront:
     image: ccortesra/wheels_front:latest
     expose:
       - 8081
@@ -31,14 +31,14 @@ services:
     networks:
       - mynetwork
 
-  wheelsun_user_ms:
+  wheelsunUserms:
     image: jivegabe/image-wheelsun_user_ms
     expose:
       - 8000
     networks:
       - mynetwork
 
-  wheelsun_mq:
+  wheelsunMq:
     image: rabbitmq:3.13-management
     expose:
       - 5672
@@ -46,7 +46,7 @@ services:
     networks:
       - mynetwork
       
-  wheelsun_transaction_ms:
+  wheelsunTransactionms:
     image: cquilaguy12/image-wheelsun_transaction_ms
     expose:
       - 3000
@@ -54,7 +54,7 @@ services:
     networks:
       - mynetwork
       
-  wheelsun_trip_ms:
+  wheelsunTripms:
     image: ccortesra/wheels
     expose:
       - 3002
@@ -62,7 +62,7 @@ services:
     networks:
       - mynetwork
 
-  wheelsun_ag:
+  wheelsunAg:
     image: jivegabe/image-wheelsun_ag
     expose:
       - 8100
@@ -75,7 +75,7 @@ services:
       - wheelsun_trip_ms
       - wheelsun_mq
 
-  ag_proxy:
+  agProxy:
     image: cquilaguy12/image-wheelsun_proxyag
     ports:
       - "81:81"
