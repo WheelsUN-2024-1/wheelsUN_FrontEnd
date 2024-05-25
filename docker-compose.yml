@@ -70,10 +70,10 @@ services:
       - mynetwork
     depends_on:
       - wheelsunAuth
-      - wheelsun_user_ms
-      - wheelsun_transaction_ms
-      - wheelsun_trip_ms
-      - wheelsun_mq
+      - wheelsunUserms
+      - wheelsunTransactionms
+      - wheelsunTripms
+      - wheelsunMq
 
   agProxy:
     image: cquilaguy12/image-wheelsun_proxyag
