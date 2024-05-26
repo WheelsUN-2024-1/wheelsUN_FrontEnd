@@ -75,10 +75,11 @@ services:
       - wheelsuntripms
       - wheelsunmq
 
-  agproxy:
-    image: jnerdq/ag-web-proxy
+  nginx_wheelsunag:
+    image: cquilaguy12/image-wheelsun_proxyag
     ports:
-      - "81:81"
+      - 81
+      - 444
     networks:
       - mynetwork
     depends_on:
