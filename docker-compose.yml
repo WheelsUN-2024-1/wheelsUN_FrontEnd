@@ -25,7 +25,7 @@ services:
       - mynetwork
 
   wheelsunauth:
-    image: jnerdq/image-wheelsun_auth_ms
+    image: jnerdq/image-wheelsun_auth_ms:latest
     expose:
       - 8080
     networks:
@@ -78,8 +78,8 @@ services:
   nginx_wheelsunag:
     image: cquilaguy12/image-wheelsun_proxyag
     ports:
-      - 81
-      - 444
+      - "81:81"
+      - "444:444"
     networks:
       - mynetwork
     depends_on:
