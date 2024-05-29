@@ -48,7 +48,7 @@ services:
           - wheelsuntripms
 
   wheelsunAg:
-    image: jivegabe/image-wheelsun_ag-no_ldap
+    image: jivegabe/image-wheelsun_ag-ldap_cloud
     expose:
       - 8100
     networks:
