@@ -1,1 +1,1 @@
-const String AG_URL = "https://nginx_wheelsunag:444";
+const String AG_URL = "http://nginx_wheelsunag:81";

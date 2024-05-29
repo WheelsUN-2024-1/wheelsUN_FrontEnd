@@ -6,14 +6,18 @@ services:
     expose:
       - 8080
     networks:
-      - mynetwork
+      mynetwork:
+        aliases:
+          - wheelsunauth
 
   wheelsunuserms:
     image: jivegabe/image-wheelsun_user_ms
     expose:
       - 8000
     networks:
-      - mynetwork
+      mynetwork:
+        aliases:
+          - wheelsunuserms
 
   wheelsunmq:
     image: rabbitmq:3.13-management
@@ -21,30 +25,36 @@ services:
       - 5672
       - 15672
     networks:
-      - mynetwork
-      
+      mynetwork:
+        aliases:
+          - wheelsunmq
+
   wheelsuntransactionms:
     image: cquilaguy12/image-wheelsun_transaction_ms
     expose:
       - 3000
-
     networks:
-      - mynetwork
-      
+      mynetwork:
+        aliases:
+          - wheelsuntransactionms
+
   wheelsuntripms:
     image: ccortesra/wheels
     expose:
       - 3002
-    
     networks:
-      - mynetwork
+      mynetwork:
+        aliases:
+          - wheelsuntripms
 
-  wheelsunag:
+  wheelsunAg:
     image: jivegabe/image-wheelsun_ag-no_ldap
     expose:
       - 8100
     networks:
-      - mynetwork
+      mynetwork:
+        aliases:
+          - wheelsunAg
     depends_on:
       - wheelsunauth
       - wheelsunuserms
@@ -56,12 +66,13 @@ services:
     image: cquilaguy12/image-wheelsun_proxyag
     ports:
       - "81:81"
-      - "444:444"
     networks:
-      - mynetwork
+      mynetwork:
+        aliases:
+          - nginx_wheelsunag
     depends_on:
-      - wheelsunag
-    
+      - wheelsunAg
+
 networks:
   mynetwork:
     driver: bridge
